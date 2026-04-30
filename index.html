@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vaudit · Roadmap & phases</title>
+<title>Vaudit · Estimation strategy</title>
 <style>
   :root {
     --orange: #FE602C;
@@ -28,6 +28,8 @@
     --amber-soft: #FAEEDA;
     --red: #993C1D;
     --red-soft: #FAECE7;
+    --green: #3B6D11;
+    --green-soft: #EAF3DE;
     --purple: #534AB7;
     --purple-soft: #EEEDFE;
     --pink: #993556;
@@ -41,8 +43,20 @@
     font-size: 15px; line-height: 1.6;
     -webkit-font-smoothing: antialiased;
   }
-  .page { max-width: 1080px; margin: 0 auto; padding: 64px 32px 96px; }
+  .page { max-width: 1080px; margin: 0 auto; padding: 32px 32px 96px; }
 
+  /* Top nav with tabs */
+  .top-nav { background: var(--surface); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 50; }
+  .top-inner { max-width: 1080px; margin: 0 auto; padding: 14px 32px; display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+  .nav-brand { display: flex; align-items: center; gap: 10px; }
+  .nav-brand-mark { width: 24px; height: 24px; background: var(--orange); border-radius: 5px; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px; color: #fff; }
+  .nav-brand-name { font-weight: 600; letter-spacing: 0.02em; color: var(--text); font-size: 15px; }
+  .tabs { display: flex; gap: 4px; margin-left: auto; flex-wrap: wrap; }
+  .tab { background: transparent; border: 1px solid transparent; color: var(--text-mute); padding: 7px 14px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+  .tab:hover { color: var(--text); background: var(--surface-2); }
+  .tab.active { color: var(--orange); background: var(--orange-soft); border-color: var(--orange-line); }
+
+  /* Page header */
   .brand { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
   .brand-mark { width: 28px; height: 28px; background: var(--orange); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px; color: #fff; }
   .brand-name { font-weight: 600; letter-spacing: 0.02em; color: var(--text); }
@@ -50,12 +64,13 @@
   .sub { color: var(--text-mute); font-size: 16px; margin: 0 0 8px; }
   .meta { color: var(--text-dim); font-size: 13px; margin: 0 0 48px; }
 
+  /* TOC */
   .toc { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 48px; padding: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
   .toc a { color: var(--text-mute); text-decoration: none; padding: 6px 12px; border-radius: 6px; font-size: 13px; border: 1px solid var(--line); transition: all 0.15s; background: var(--surface); }
   .toc a:hover { background: var(--orange-soft); color: var(--orange); border-color: var(--orange-line); }
 
   h2 { font-size: 24px; margin: 64px 0 8px; font-weight: 600; letter-spacing: -0.01em; padding-top: 24px; border-top: 1px solid var(--line); color: var(--text); }
-  h2:first-of-type { border-top: none; padding-top: 0; }
+  h2:first-of-type, .panel > section:first-of-type h2 { border-top: none; padding-top: 0; }
   .section-sub { color: var(--text-mute); margin: 0 0 32px; }
 
   h3 { font-size: 17px; margin: 32px 0 12px; font-weight: 600; color: var(--text); }
@@ -70,7 +85,94 @@
   .proposal-note { background: var(--amber-soft); color: var(--amber); border: 1px solid #E8C886; border-radius: 8px; padding: 12px 16px; font-size: 13px; margin-bottom: 32px; }
   .proposal-note strong { color: var(--amber); }
 
-  /* Timeline strip */
+  /* === STRATEGY page styles === */
+  .group { margin-bottom: 32px; }
+  .group-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 4px; }
+  .group-num { color: var(--orange); font-weight: 600; font-size: 14px; }
+  .group-title { font-size: 16px; font-weight: 600; color: var(--text); }
+  .group-desc { color: var(--text-mute); font-size: 13px; margin: 0 0 16px; }
+
+  .src-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+  .src { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; transition: border-color 0.15s; }
+  .src:hover { border-color: var(--line-2); }
+  .src.rec { border-color: var(--orange); border-width: 1.5px; }
+  .src-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .src-name { font-size: 14px; font-weight: 600; color: var(--text); }
+  .badge { font-size: 10px; padding: 3px 8px; border-radius: 5px; font-weight: 600; letter-spacing: 0.02em; white-space: nowrap; }
+  .b-free { background: var(--teal-soft); color: var(--teal); }
+  .b-mid { background: var(--amber-soft); color: var(--amber); }
+  .b-hi { background: var(--red-soft); color: var(--red); }
+  .b-int { background: var(--surface-2); color: var(--text-mute); border: 1px solid var(--line); }
+  .src-desc { font-size: 12px; color: var(--text-mute); line-height: 1.5; }
+  .src-row { display: grid; grid-template-columns: 64px 1fr; gap: 8px; font-size: 11px; line-height: 1.4; }
+  .src-row .lab { color: var(--text-dim); }
+  .src-row .val { color: var(--text-mute); }
+  .src-phase { font-size: 10px; color: var(--text-dim); margin-top: auto; padding-top: 6px; border-top: 1px solid var(--line); text-transform: lowercase; letter-spacing: 0.04em; }
+  .rec-tag { display: inline-block; font-size: 9px; padding: 2px 6px; border-radius: 4px; background: var(--orange); color: #fff; font-weight: 700; letter-spacing: 0.04em; margin-left: 6px; vertical-align: middle; }
+
+  /* Mockup (inside strategy page) */
+  .mockup { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 28px 32px; margin: 24px 0; }
+  .mockup-input { background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+  .mockup-input .arrow { color: var(--orange); font-weight: 600; }
+  .mockup-input .domain { color: var(--text); font-family: 'SF Mono', Menlo, monospace; font-size: 14px; }
+  .mockup-input .audit-btn { margin-left: auto; background: var(--orange); color: #fff; padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; }
+  .agent-msg { font-size: 15px; line-height: 1.7; color: var(--text); margin-bottom: 20px; }
+  .agent-msg .number { color: var(--orange); font-weight: 600; transition: opacity 0.2s; }
+  .agent-msg .source { display: block; font-size: 12px; color: var(--text-dim); margin-top: 8px; }
+
+  /* Refine panel */
+  .refine { margin: 20px 0; padding: 16px 18px; background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; }
+  .refine-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 14px; }
+  .refine-title { font-size: 13px; font-weight: 600; color: var(--text); }
+  .refine-skip { font-size: 11px; color: var(--text-dim); }
+  .refine-row { margin-bottom: 14px; }
+  .refine-row:last-child { margin-bottom: 0; }
+  .refine-label { font-size: 11px; color: var(--text-mute); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px; }
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; }
+  .chip { background: var(--surface); border: 1px solid var(--line-2); color: var(--text-mute); padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+  .chip:hover { border-color: var(--orange); color: var(--orange); }
+  .chip.active { background: var(--orange); border-color: var(--orange); color: #fff; }
+
+  /* Signup widget (strategy page mockup) */
+  .signup-mockup { margin-top: 20px; padding: 18px; background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; }
+  .signup-mockup h5 { margin: 0 0 12px; font-size: 14px; color: var(--text); }
+  .signup-input { width: 100%; padding: 10px 12px; background: var(--surface); border: 1px solid var(--line-2); border-radius: 6px; color: var(--text-dim); font-size: 13px; margin-bottom: 8px; font-family: inherit; }
+  .signup-cta { display: block; width: 100%; padding: 10px; background: var(--orange); color: #fff; border-radius: 6px; text-align: center; font-weight: 600; font-size: 13px; text-decoration: none; }
+
+  /* Tables — shared */
+  table { width: 100%; border-collapse: collapse; margin: 16px 0 24px; font-size: 13px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  th { text-align: left; padding: 10px 12px; background: var(--surface-2); color: var(--text-mute); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; border-bottom: 1px solid var(--line); }
+  td { padding: 12px; border-bottom: 1px solid var(--line); color: var(--text); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  td.dim { color: var(--text-mute); }
+  td.priority { font-weight: 600; }
+  .pri-pill { display: inline-block; font-size: 10px; padding: 3px 8px; border-radius: 4px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+  .pri-1 { background: var(--red-soft); color: var(--red); }
+  .pri-2 { background: var(--amber-soft); color: var(--amber); }
+  .pri-3 { background: var(--surface-2); color: var(--text-mute); }
+  .track-pill { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 4px; font-weight: 600; letter-spacing: 0.02em; }
+  .track-pill.acc { background: var(--teal-soft); color: var(--teal); }
+  .track-pill.ag { background: var(--purple-soft); color: var(--purple); }
+  .track-pill.rep { background: var(--pink-soft); color: var(--pink); }
+
+  /* Flow diagram (strategy) */
+  .flow { display: flex; flex-direction: column; gap: 12px; margin: 24px 0; padding: 20px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+  .flow-step { display: grid; grid-template-columns: 40px 1fr; gap: 16px; align-items: start; padding: 10px 0; }
+  .flow-step:not(:last-child) { border-bottom: 1px dashed var(--line); }
+  .flow-num { width: 28px; height: 28px; border-radius: 50%; background: var(--orange-soft); color: var(--orange); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; }
+  .flow-body .ft { font-size: 14px; font-weight: 600; margin-bottom: 4px; color: var(--text); }
+  .flow-body .fs { font-size: 12px; color: var(--text-mute); line-height: 1.5; }
+  .flow-body code { background: var(--surface-2); padding: 1px 6px; border-radius: 4px; font-size: 11px; color: var(--orange); font-family: 'SF Mono', Menlo, monospace; }
+
+  /* Rules grid (strategy + prototype) */
+  .rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin: 16px 0 24px; }
+  .rule { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px; }
+  .rule-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .rule-icon { width: 24px; height: 24px; border-radius: 6px; background: var(--orange-soft); color: var(--orange); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; }
+  .rule-name { font-size: 13px; font-weight: 600; color: var(--text); }
+  .rule-desc { font-size: 12px; color: var(--text-mute); line-height: 1.5; margin: 0; }
+
+  /* === ROADMAP page styles === */
   .timeline { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 24px 0 32px; }
   .tl-cell { padding: 16px 18px; border-radius: 10px; background: var(--surface); border: 1px solid var(--line); }
   .tl-cell.p1 { border-color: #5DCAA5; }
@@ -83,7 +185,6 @@
   .tl-title { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
   .tl-thesis { font-size: 12px; color: var(--text-mute); line-height: 1.5; margin: 0; }
 
-  /* Track matrix */
   .matrix { display: grid; grid-template-columns: 140px repeat(3, 1fr); gap: 8px; margin: 24px 0 32px; }
   .matrix-head { padding: 10px 12px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
   .matrix-head h5 { margin: 0 0 2px; font-size: 13px; font-weight: 600; color: var(--text); }
@@ -95,13 +196,10 @@
   .mcell { padding: 12px 14px; border-radius: 8px; font-size: 12px; line-height: 1.5; min-height: 110px; display: flex; flex-direction: column; gap: 4px; border: 1px solid transparent; }
   .mcell .ct { font-weight: 600; font-size: 12px; }
   .mcell .cl { font-size: 11px; line-height: 1.5; }
-  .mcell ul { margin: 4px 0 0; padding-left: 16px; font-size: 11px; line-height: 1.45; }
-  .mcell li { margin-bottom: 2px; }
-
   .acc-1 { background: #9FE1CB; color: #04342C; border-color: #7BD3B5; }
   .acc-2 { background: #5DCAA5; color: #04342C; border-color: #3FB888; }
   .acc-3 { background: #1D9E75; color: #FFFFFF; border-color: #137456; }
-  .acc-3 ul, .acc-3 .cl { color: #E1F5EE; }
+  .acc-3 .cl { color: #E1F5EE; }
   .ag-1 { background: var(--purple-soft); color: #26215C; border-color: #D9D5F5; }
   .ag-2 { background: #CECBF6; color: #26215C; border-color: #B0ACEA; }
   .ag-3 { background: #AFA9EC; color: #26215C; border-color: #8C84DD; }
@@ -109,18 +207,15 @@
   .rep-2 { background: #F4C0D1; color: #4B1528; border-color: #E59CB7; }
   .rep-3 { background: #ED93B1; color: #4B1528; border-color: #DC6F95; }
 
-  /* Legend */
-  .legend { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 16px; padding: 12px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 24px; padding: 12px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
   .legend-item { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-mute); }
   .legend-sw { width: 10px; height: 10px; border-radius: 3px; }
 
-  /* Phase card */
   .phase { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 24px 28px; margin-bottom: 20px; position: relative; overflow: hidden; }
   .phase::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--line); }
   .phase.p1::before { background: #5DCAA5; }
   .phase.p2::before { background: #1D9E75; }
   .phase.p3::before { background: var(--orange); }
-
   .phase-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px; flex-wrap: wrap; }
   .phase-num { font-size: 11px; font-weight: 700; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase; }
   .phase-title { font-size: 20px; font-weight: 600; color: var(--text); }
@@ -156,26 +251,102 @@
   .phase-outcome { margin-top: 20px; padding: 14px 16px; background: var(--orange-soft); border-radius: 8px; border-left: 3px solid var(--orange); }
   .phase-outcome h6 { margin: 0 0 4px; font-size: 11px; color: var(--orange-deep); }
   .phase-outcome p { margin: 0; font-size: 13px; color: var(--text); line-height: 1.5; }
+  .deps { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+  .dep-pill { font-size: 11px; padding: 4px 10px; background: var(--surface-2); color: var(--text-mute); border-radius: 5px; border: 1px solid var(--line); }
+  .dep-pill.spend { background: var(--amber-soft); color: var(--amber); border-color: #E8C886; }
+  .dep-pill.eng { background: var(--purple-soft); color: var(--purple); border-color: #C9C4F0; }
+  .dep-pill.data { background: var(--teal-soft); color: var(--teal); border-color: #B0DCC8; }
 
-  /* Backlog table */
-  table { width: 100%; border-collapse: collapse; margin: 16px 0 24px; font-size: 13px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
-  th { text-align: left; padding: 10px 12px; background: var(--surface-2); color: var(--text-mute); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; border-bottom: 1px solid var(--line); }
-  td { padding: 12px; border-bottom: 1px solid var(--line); color: var(--text); vertical-align: top; }
-  tr:last-child td { border-bottom: none; }
-  td.dim { color: var(--text-mute); }
-  td.priority { font-weight: 600; }
-  .pri-pill { display: inline-block; font-size: 10px; padding: 3px 8px; border-radius: 4px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
-  .pri-1 { background: var(--red-soft); color: var(--red); }
-  .pri-2 { background: var(--amber-soft); color: var(--amber); }
-  .pri-3 { background: var(--surface-2); color: var(--text-mute); }
-  .track-pill { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 4px; font-weight: 600; letter-spacing: 0.02em; }
-  .track-pill.acc { background: var(--teal-soft); color: var(--teal); }
-  .track-pill.ag { background: var(--purple-soft); color: var(--purple); }
-  .track-pill.rep { background: var(--pink-soft); color: var(--pink); }
+  /* === PROTOTYPE page styles === */
+  .live-banner { background: var(--teal-soft); color: var(--teal); border: 1px solid #B0DCC8; border-radius: 8px; padding: 10px 16px; font-size: 13px; margin-bottom: 24px; display: flex; align-items: center; gap: 10px; }
+  .live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--teal); animation: pulse 2s infinite; }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
 
+  .proto { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 28px 32px; margin: 24px 0 48px; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
+  .domain-bar { background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; margin-bottom: 24px; display: flex; align-items: center; gap: 10px; }
+  .arrow { color: var(--orange); font-weight: 700; font-size: 14px; }
+  .domain { color: var(--text); font-family: 'SF Mono', Menlo, monospace; font-size: 14px; }
+  .audit-btn { margin-left: auto; background: var(--orange); color: #fff; padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: default; }
+
+  .sizing { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; padding: 10px 14px; background: var(--purple-soft); border: 1px solid #D9D5F5; border-radius: 8px; font-size: 12px; color: #26215C; }
+  .sizing-tag { font-weight: 700; font-size: 10px; padding: 2px 8px; background: var(--purple); color: #fff; border-radius: 4px; letter-spacing: 0.04em; }
+
+  .source { display: block; font-size: 12px; color: var(--text-dim); margin: 6px 0 16px; }
+
+  .soft-alert {
+    background: var(--amber-soft);
+    border-left: 3px solid var(--amber);
+    border-radius: 0 8px 8px 0;
+    font-size: 13px;
+    color: var(--amber);
+    line-height: 1.5;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease, margin 0.3s ease;
+    padding: 0 14px;
+    margin: 0;
+  }
+  .soft-alert.show {
+    max-height: 80px;
+    padding: 10px 14px;
+    margin: 12px 0 16px;
+  }
+
+  .expand {
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--orange);
+    border-radius: 0 10px 10px 0;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+  }
+  .expand-label { font-size: 11px; font-weight: 700; color: var(--orange-deep); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+  .expand-text { font-size: 14px; color: var(--text); line-height: 1.5; margin-bottom: 12px; }
+  .expand-text .number { color: var(--orange); font-weight: 600; }
+  .expand-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+  .btn { padding: 7px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; border: 1px solid; font-family: inherit; transition: all 0.15s; }
+  .btn-primary { background: var(--orange); color: #fff; border-color: var(--orange); }
+  .btn-primary:hover { background: var(--orange-deep); }
+  .btn-lateral { background: var(--surface); color: var(--text); border-color: var(--line-2); }
+  .btn-lateral:hover { border-color: var(--orange); color: var(--orange); }
+
+  .signup { padding: 18px; background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; }
+  .signup h5 { margin: 0 0 12px; font-size: 14px; color: var(--text); font-weight: 600; }
+  .signup-cta-proto { display: block; width: 100%; padding: 11px; background: var(--orange); color: #fff; border-radius: 6px; text-align: center; font-weight: 600; font-size: 13px; text-decoration: none; transition: background 0.15s; }
+  .signup-cta-proto:hover { background: var(--orange-deep); }
+  .signup-secondary { display: block; text-align: center; font-size: 11px; color: var(--text-dim); margin-top: 8px; text-decoration: none; }
+
+  .try-it { margin: 16px 0 8px; padding: 10px 14px; background: var(--orange-soft); border: 1px solid var(--orange-line); border-radius: 8px; font-size: 12px; color: var(--orange-deep); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .try-it strong { color: var(--orange-deep); }
+
+  .state { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 24px 28px; margin-bottom: 20px; position: relative; overflow: hidden; }
+  .state::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--purple); }
+  .state-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+  .state-num { width: 26px; height: 26px; border-radius: 50%; background: var(--purple-soft); color: var(--purple); display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; flex-shrink: 0; }
+  .state-title { font-size: 17px; font-weight: 600; color: var(--text); }
+  .state-trigger { font-size: 11px; color: var(--text-dim); padding: 3px 8px; background: var(--surface-2); border-radius: 4px; border: 1px solid var(--line); text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600; }
+  .state-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .state-col h6 { font-size: 11px; font-weight: 700; color: var(--text-dim); margin: 0 0 10px; letter-spacing: 0.08em; text-transform: uppercase; }
+  .state-col .ex {
+    background: var(--surface-2); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px;
+    font-size: 13px; line-height: 1.6; color: var(--text); font-style: italic; margin-bottom: 12px;
+  }
+  .state-col .ex .number { color: var(--orange); font-weight: 600; font-style: normal; }
+  .state-col ul { padding-left: 18px; margin: 0; }
+  .state-col li { font-size: 13px; line-height: 1.5; color: var(--text-mute); margin-bottom: 6px; }
+  .state-col li strong { color: var(--text); }
+  .state-col ul.work-list { padding: 0; }
+
+  /* Callouts and decisions */
   .callout { background: var(--orange-soft); border-left: 3px solid var(--orange); padding: 16px 20px; border-radius: 0 8px 8px 0; margin: 24px 0; }
-  .callout h4 { margin-top: 0; color: var(--orange-deep); }
+  .callout h4 { margin-top: 0; color: var(--orange-deep); font-size: 14px; font-weight: 600; }
+  .callout p { color: var(--text); }
   .callout p:last-child { margin-bottom: 0; }
+  .callout ul { margin: 8px 0 0; padding-left: 20px; }
+  .callout li { color: var(--text); margin-bottom: 6px; font-size: 14px; }
 
   .decisions { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px 24px; margin: 16px 0 32px; }
   .decisions h4 { margin-top: 0; color: var(--text); text-transform: none; letter-spacing: normal; font-size: 15px; }
@@ -183,7 +354,13 @@
   .decisions li { color: var(--text-mute); font-size: 13px; margin-bottom: 8px; line-height: 1.5; }
   .decisions li strong { color: var(--text); }
 
+  /* Panel show/hide */
+  .panel { display: none; }
+  .panel.active { display: block; }
+
   footer { margin-top: 96px; padding-top: 32px; border-top: 1px solid var(--line); color: var(--text-dim); font-size: 12px; text-align: center; }
+
+  .mobile-fallback { display: none; padding: 12px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; color: var(--text-mute); font-size: 13px; margin: 16px 0; }
 
   @media (max-width: 880px) {
     .matrix { grid-template-columns: 100px repeat(3, 1fr); }
@@ -196,15 +373,490 @@
     h1 { font-size: 28px; }
     .matrix { display: none; }
     .timeline { grid-template-columns: 1fr; }
+    .src-grid { grid-template-columns: 1fr; }
+    .mockup { padding: 20px; }
+    .proto { padding: 20px; }
+    .state-grid { grid-template-columns: 1fr; gap: 16px; }
+    .top-inner { padding: 12px 16px; }
     .mobile-fallback { display: block !important; }
   }
-  .mobile-fallback { display: none; padding: 12px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; color: var(--text-mute); font-size: 13px; margin: 16px 0; }
 </style>
 </head>
 <body>
 
-<div class="page">
+<nav class="top-nav">
+  <div class="top-inner">
+    <div class="nav-brand">
+      <div class="nav-brand-mark">V</div>
+      <div class="nav-brand-name">Vaudit</div>
+    </div>
+    <div class="tabs">
+      <button class="tab active" data-tab="strategy">Estimation strategy</button>
+      <button class="tab" data-tab="roadmap">Roadmap &amp; phases</button>
+      <button class="tab" data-tab="prototype">Agent prototype</button>
+    </div>
+  </div>
+</nav>
 
+<div class="panel active" id="panel-strategy">
+<div class="page">
+  <header>
+    <div class="brand">
+      <div class="brand-mark">V</div>
+      <div class="brand-name">Vaudit</div>
+    </div>
+    <h1>Estimation accuracy strategy</h1>
+    <p class="sub">Signal sources we'd add and how the agent accepts user inputs to sharpen them.</p>
+    <p class="meta">Pre-signup agent · Working draft</p>
+  </header>
+
+  <nav class="toc">
+    <a href="#sources">1 · Signal sources</a>
+    <a href="#shortlist">2 · Shortlist</a>
+    <a href="#agent-inputs">3 · Agent input behaviour</a>
+    <a href="#flow">4 · Refinement flow</a>
+    <a href="#strategy-rules">5 · Behaviour rules</a>
+  </nav>
+
+  <section id="sources">
+    <h2>1 · Signal sources for accuracy</h2>
+    <p class="section-sub">Organized by what each source actually contributes to the estimation formula. Cards with the orange outline are the recommended adds.</p>
+
+    <div class="legend">
+      <span class="legend-item"><span class="legend-sw" style="background: var(--teal);"></span>Free / public</span>
+      <span class="legend-item"><span class="legend-sw" style="background: var(--amber);"></span>Mid-cost paid</span>
+      <span class="legend-item"><span class="legend-sw" style="background: var(--red);"></span>Premium / enterprise</span>
+      <span class="legend-item"><span class="legend-sw" style="background: var(--text-dim);"></span>Internal / proprietary</span>
+      <span class="legend-item"><span class="legend-sw" style="border: 2px solid var(--orange); background: transparent;"></span>Recommended add</span>
+    </div>
+
+    <div class="group">
+      <div class="group-head">
+        <span class="group-num">Group 1</span>
+        <span class="group-title">Firmographics — sizes the company</span>
+      </div>
+      <p class="group-desc">Highest single-integration leverage. Headcount and revenue band are the dominant variables in every per-ID formula.</p>
+      <div class="src-grid">
+        <div class="src rec">
+          <div class="src-head"><span class="src-name">Apollo.io <span class="rec-tag">PICK</span></span><span class="badge b-mid">$59–149/mo</span></div>
+          <p class="src-desc">Headcount, revenue band, vertical, funding stage, location.</p>
+          <div class="src-row"><span class="lab">Lift</span><span class="val">High — feeds all 5 IDs</span></div>
+          <div class="src-row"><span class="lab">Best for</span><span class="val">Cross-ID baseline</span></div>
+          <div class="src-phase">phase 2</div>
+        </div>
+        <div class="src">
+          <div class="src-head"><span class="src-name">Clearbit (HubSpot Breeze)</span><span class="badge b-mid">contact sales</span></div>
+          <p class="src-desc">Same shape as Apollo. Pricing now bundled into HubSpot.</p>
+          <div class="src-row"><span class="lab">Lift</span><span class="val">High</span></div>
+          <div class="src-row"><span class="lab">Best for</span><span class="val">Existing HubSpot orgs</span></div>
+          <div class="src-phase">alternative to apollo</div>
+        </div>
+        <div class="src">
+          <div class="src-head"><span class="src-name">People Data Labs</span><span class="badge b-mid">$0.05–0.20 / lookup</span></div>
+          <p class="src-desc">Pay-per-call firmographics. No subscription, usage-based.</p>
+          <div class="src-row"><span class="lab">Lift</span><span class="val">High</span></div>
+          <div class="src-row"><span class="lab">Best for</span><span class="val">Tier-by-size economics</span></div>
+          <div class="src-phase">phase 2 alternative</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="group-head">
+        <span class="group-num">Group 2</span>
+        <span class="group-title">Traffic and audience — drives ADID + PAYMENTID</span>
+      </div>
+      <p class="group-desc">Only fire premium tools when firmographics flag mid-market or larger. Free tier covers the long tail.</p>
+      <div class="src-grid">
+        <div class="src">
+          <div class="src-head"><span class="src-name">SimilarWeb API</span><span class="badge b-hi">$14k–90k+/yr</span></div>
+          <p class="src-desc">Visits, traffic sources, channel mix, audience overlap.</p>
+          <div class="src-row"><span class="lab">Lift</span><span class="val">High but expensive</span></div>
+          <div class="src-row"><span class="lab">Best for</span><span class="val">Mid-market+ only</span></div>
+          <div class="src-phase">phase 3, gated</div>
+        </div>
+        <div class="src rec">
+          <div class="src-head"><span class="src-name">SEMrush Trends Basic <span class="rec-tag">PICK</span></span><span class="badge b-mid">$500/mo + units</span></div>
+          <p class="src-desc">Traffic summaries, behavior, paid-vs-organic split. Cheaper than SimilarWeb.</p>
+          <div class="src-row"><span class="lab">Lift</span><span class="val">Medium-high, lower cost</span></div>
+          <div class="src-row"><span class="lab">Best for</span><span class="val">Primary traffic source</span></div>
+          <div class="src-phase">phase 3 preferred</div>
+        </div>
+        <div class="src">
+          <div class="src-head"><span class="src-name">DataForSEO</span><span class="badge b-mid">$30 per 1M credits</span></div>
+          <p class="src-desc">Raw SERP, keyword, traffic estimates at scale. No UI.</p>
+          <div class="src-row"><span class="lab">Lift</span><span class="val">Medium — needs assembly</span></div>
+          <div class="src-row"><span class="lab">Best for</span><span class="val">Build-your-own backfill</span></div>
+          <div class="src-phase">phase 3 fallback</div>
+        </div>
+        <div class="src">
+          <div class="src-head"><span class="src-name">Cloudflare Radar</span><span class="badge b-free">free</span></div>
+          <p class="src-desc">Public traffic rank tier for many domains.</p>
+          <div class="src-row"><span class="lab">Lift</span><span class="val">Low — coarse band only</span></div>
+          <div class="src-row"><span class="lab">Best for</span><span class="val">Sanity check</span></div>
+          <div class="src-phase">phase 1</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="group-head">
+        <span class="group-num">Group 3</span>
+        <span class="group-title">Ad spend signal — sharpens ADID directly</span>
+      </div>
+      <p class="group-desc">Public ad libraries are free and underused. SpyFu is the cheap commercial layer if needed.</p>
+      <div class="src-grid">
+        <div class="src rec">
+          <div class="src-head"><span class="src-name">Google Ads Transparency <span class="rec-tag">PICK</span></span><span class="badge b-free">free</span></div>
+          <p class="src-desc">Active advertiser status, ad creative, run dates, region.</p>
+          <div class="src-row"><span class="lab">Lift</span><span class="val">Medium — confirms activity</span></div>
+          <div class="src-row"><span class="lab">Best for</span><span class="val">Activity proxy, not $</span></div>
+          <div class="src-phase">phase 1</div>
+        </div>
+        <div class="src rec">
+          <div class="src-head"><span class="src-name">Meta Ad Library <span class="rec-tag">PICK</span></span><span class="badge b-free">free</span></div>
+          <p class="src-desc">Active Meta advertisers, creative volume, run history.</p>
+          <div class="src-row"><span class="lab">Lift</span><span class="val">Medium — Meta activity proxy</span></div>
+          <div class="src-row"><span class="lab">Best for</span><span class="val">Proves they spend</span></div>
+          <div class="src-phase">phase 1</div>
+        </div>
+        <div class="src">
+          <div class="src-head"><span class="src-name">SpyFu API</span><span class="badge b-mid">$79/mo + $0.50/1k rows</span></div>
+          <p class="src-desc">Estimated Google Ads monthly spend, top keywords, history.</p>
+          <div class="src-row"><span class="lab">Lift</span><span class="val">High for ADID, Google only</span></div>
+          <div class="src-row"><span class="lab">Best for</span><span class="val">Direct $ estimate, US/UK</span></div>
+          <div class="src-phase">phase 2 candidate</div>
+        </div>
+        <div class="src">
+          <div class="src-head"><span class="src-name">Adbeat</span><span class="badge b-hi">$249–999+/mo</span></div>
+          <p class="src-desc">Display + native ad spend across DSPs, US-centric.</p>
+          <div class="src-row"><span class="lab">Lift</span><span class="val">Niche — display only</span></div>
+          <div class="src-row"><span class="lab">Best for</span><span class="val">Display-heavy advertisers</span></div>
+          <div class="src-phase">defer</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="group-head">
+        <span class="group-num">Group 4</span>
+        <span class="group-title">Vertical-specific — drives SHIPID, SEATID, KLOUDID</span>
+      </div>
+      <p class="group-desc">Free public references that the original doc treats as static "industry tables." Wire them up; don't pay for what's already public.</p>
+      <div class="src-grid">
+        <div class="src rec">
+          <div class="src-head"><span class="src-name">Carrier rate cards <span class="rec-tag">PICK</span></span><span class="badge b-free">free</span></div>
+          <p class="src-desc">UPS / FedEx / DHL public list rates, dim weight rules, surcharges.</p>
+          <div class="src-row"><span class="lab">Lift</span><span class="val">Medium — SHIPID baseline</span></div>
+          <div class="src-row"><span class="lab">Best for</span><span class="val">Carrier mix × volume</span></div>
+          <div class="src-phase">phase 1</div>
+        </div>
+        <div class="src">
+          <div class="src-head"><span class="src-name">Shippo / EasyPost API</span><span class="badge b-mid">usage-based</span></div>
+          <p class="src-desc">Live shopped rates across carriers, dimensional pricing.</p>
+          <div class="src-row"><span class="lab">Lift</span><span class="val">Higher accuracy for actuals</span></div>
+          <div class="src-row"><span class="lab">Best for</span><span class="val">Post-connect, not pre</span></div>
+          <div class="src-phase">phase 3</div>
+        </div>
+        <div class="src rec">
+          <div class="src-head"><span class="src-name">Cloud pricing APIs <span class="rec-tag">PICK</span></span><span class="badge b-free">free</span></div>
+          <p class="src-desc">AWS / GCP / Azure per-service unit pricing across regions and tiers.</p>
+          <div class="src-row"><span class="lab">Lift</span><span class="val">Medium — KLOUDID baseline</span></div>
+          <div class="src-row"><span class="lab">Best for</span><span class="val">Pricing × inferred volume</span></div>
+          <div class="src-phase">phase 1</div>
+        </div>
+        <div class="src">
+          <div class="src-head"><span class="src-name">G2 / Capterra median prices</span><span class="badge b-free">free scrape</span></div>
+          <p class="src-desc">Median tool price by category. Useful for SEATID anchoring.</p>
+          <div class="src-row"><span class="lab">Lift</span><span class="val">Low-medium — directional</span></div>
+          <div class="src-row"><span class="lab">Best for</span><span class="val">SaaS spend × tool count</span></div>
+          <div class="src-phase">phase 1</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="group-head">
+        <span class="group-num">Group 5</span>
+        <span class="group-title">Internal data — the moat</span>
+      </div>
+      <p class="group-desc">Free, defensible, compounds over time. Every other signal feeds into this — not the other way around.</p>
+      <div class="src-grid">
+        <div class="src rec">
+          <div class="src-head"><span class="src-name">Vaudit benchmark model <span class="rec-tag">PICK</span></span><span class="badge b-int">internal</span></div>
+          <p class="src-desc">$1B+ audited spend. Median by vertical × size band × platform.</p>
+          <div class="src-row"><span class="lab">Lift</span><span class="val">Highest — replaces static table</span></div>
+          <div class="src-row"><span class="lab">Best for</span><span class="val">Anchor for every ID</span></div>
+          <div class="src-phase">phase 2 — build first</div>
+        </div>
+        <div class="src rec">
+          <div class="src-head"><span class="src-name">Recovery rate by vertical <span class="rec-tag">PICK</span></span><span class="badge b-int">internal</span></div>
+          <p class="src-desc">Actual % recovered per vertical from refund history.</p>
+          <div class="src-row"><span class="lab">Lift</span><span class="val">High — kills hardcoded SAVINGS_RATE</span></div>
+          <div class="src-row"><span class="lab">Best for</span><span class="val">Savings projection</span></div>
+          <div class="src-phase">phase 2</div>
+        </div>
+        <div class="src rec">
+          <div class="src-head"><span class="src-name">Estimate-vs-actual telemetry <span class="rec-tag">PICK</span></span><span class="badge b-int">internal</span></div>
+          <p class="src-desc">Pre-signup estimate logged, compared to post-connect actual.</p>
+          <div class="src-row"><span class="lab">Lift</span><span class="val">Compounds — feeds everything</span></div>
+          <div class="src-row"><span class="lab">Best for</span><span class="val">Quarterly recalibration</span></div>
+          <div class="src-phase">phase 1 — ship first</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="shortlist">
+    <h2>2 · Shortlist — what we'd actually fund</h2>
+    <p class="section-sub">Three paid integrations and the free wiring. That's the entire net-new spend.</p>
+
+    <div class="callout">
+      <h4>Recommended adds</h4>
+      <ul>
+        <li><strong>Apollo or People Data Labs</strong> for firmographics — single integration, feeds every formula. ($60–150/mo subscription, or pay-per-lookup if usage is bursty.)</li>
+        <li><strong>Free public signals</strong> — Google Transparency, Meta Ad Library, carrier rate cards, cloud pricing APIs, G2 medians. Wire all of these. No incremental spend.</li>
+        <li><strong>SEMrush Trends Basic</strong> for traffic baseline — only fired when firmographics flag mid-market+. Tiering matters; you don't want to burn API units on a $5M D2C lookup.</li>
+      </ul>
+    </div>
+
+    <h3>What to drop or defer</h3>
+    <table>
+      <thead>
+        <tr><th style="width: 30%;">Source</th><th style="width: 70%;">Reason</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Adbeat</td><td class="dim">$249–999+/mo for display-only spend. Niche and overlapping with SpyFu/SEMrush. Defer until display becomes a major focus.</td></tr>
+        <tr><td>Clearbit standalone</td><td class="dim">Now bundled into HubSpot Breeze — standalone API surface is being deprecated. Apollo or PDL is cleaner today.</td></tr>
+        <tr><td>LinkedIn scraping</td><td class="dim">TOS violation, brittle, and Apollo/PDL legitimately cover headcount.</td></tr>
+        <tr><td>Datadog / New Relic detection</td><td class="dim">Patchy detectability, low signal value. Skip.</td></tr>
+        <tr><td>SimilarWeb (full)</td><td class="dim">$14k–90k+/yr is too much when SEMrush Trends Basic covers the use case. Negotiate only if SEMrush coverage testing reveals a real gap.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="agent-inputs">
+    <h2>3 · Agent input behaviour</h2>
+    <p class="section-sub">User inputs sharpen the estimate further — but only as optional, single-tap refinements. Domain stays the only required input. Signup form stays mounted.</p>
+
+    <h3>The refinement principle</h3>
+    <p>Every additional input the agent collects is one extra friction point against signup. The accuracy gain has to be worth more than the conversion cost. Three rules:</p>
+    <ol>
+      <li><strong>Domain alone always works.</strong> The agent delivers a complete pitch and signup form on domain alone. Refinements are upsell, never blockers.</li>
+      <li><strong>Single-tap inputs only.</strong> No free text, no multi-turn questions. Chips and toggles. If a user can't answer in one tap, the question doesn't ship.</li>
+      <li><strong>Live recalibration.</strong> Every chip tap updates the displayed range immediately. The user sees the number move; that's the dopamine that earns the second tap.</li>
+    </ol>
+
+    <h3>What we ask for, and why</h3>
+    <p>Four optional dimensions, ranked by accuracy lift per tap. Ship them in order; stop when conversion data says the next one isn't earning its cost.</p>
+
+    <table>
+      <thead>
+        <tr><th>Input</th><th>Why it matters</th><th>Format</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Monthly ad spend</strong></td>
+          <td class="dim">Replaces the most fragile variable in the formula (traffic-derived spend) with a self-reported anchor. Single biggest accuracy lift.</td>
+          <td class="dim">5 chips: &lt;$5K, $5–25K, $25–100K, $100–500K, $500K+</td>
+        </tr>
+        <tr>
+          <td><strong>Employee count</strong></td>
+          <td class="dim">Confirms or corrects the firmographic signal. Drives SEATID directly and tunes ADID/KLOUDID size assumptions.</td>
+          <td class="dim">4 chips: 1–10, 10–50, 50–250, 250+</td>
+        </tr>
+        <tr>
+          <td><strong>Vertical confirm</strong></td>
+          <td class="dim">BuiltWith infers vertical from stack but gets it wrong on edge cases (B2B SaaS on Shopify, agencies on WordPress). Confirmation costs nothing and prevents a class of bad estimates.</td>
+          <td class="dim">Pre-selected chip from inference + 3–4 alternatives</td>
+        </tr>
+        <tr>
+          <td><strong>Region focus</strong></td>
+          <td class="dim">CPC and recovery rates vary materially by region. Helps when the company isn't obviously US/UK.</td>
+          <td class="dim">4 chips: NA, EU, APAC, Global</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Mockup — what the agent surface looks like</h3>
+    <p class="dim">Domain submitted, agent has delivered the pitch, signup form is mounted. The refinement panel sits between the pitch and the signup form. Any chip tap recalibrates the bolded number above.</p>
+
+    <div class="mockup">
+      <div class="mockup-input">
+        <span class="arrow">›</span>
+        <span class="domain">acme.com</span>
+        <span class="audit-btn">AUDIT MY VENDORS</span>
+      </div>
+
+      <div class="agent-msg">
+        Looks like you run a DTC apparel store on Shopify — Google Ads and Meta with GA4, hosted on Cloudflare. Stores at your size on this stack typically run <span class="number" id="strategy-spendRange">$20K–$40K/month</span> across these platforms, and our audits typically recover <span class="number" id="strategy-recoveryRange">$3K–$8K/month</span> in waste.
+        <span class="source">Based on patterns across 47 similar audited accounts</span>
+      </div>
+
+      <div class="refine">
+        <div class="refine-head">
+          <span class="refine-title">Sharpen the number (optional)</span>
+          <span class="refine-skip">↓ skip to signup</span>
+        </div>
+
+        <div class="refine-row">
+          <div class="refine-label">Monthly ad spend</div>
+          <div class="chips" data-group="spend">
+            <button class="chip" data-val="lt5">&lt;$5K</button>
+            <button class="chip active" data-val="5to25">$5–25K</button>
+            <button class="chip" data-val="25to100">$25–100K</button>
+            <button class="chip" data-val="100to500">$100–500K</button>
+            <button class="chip" data-val="gt500">$500K+</button>
+          </div>
+        </div>
+
+        <div class="refine-row">
+          <div class="refine-label">Team size</div>
+          <div class="chips" data-group="team">
+            <button class="chip" data-val="s">1–10</button>
+            <button class="chip active" data-val="m">10–50</button>
+            <button class="chip" data-val="l">50–250</button>
+            <button class="chip" data-val="xl">250+</button>
+          </div>
+        </div>
+
+        <div class="refine-row">
+          <div class="refine-label">Vertical (we detected DTC apparel)</div>
+          <div class="chips" data-group="vert">
+            <button class="chip active" data-val="dtc">DTC apparel</button>
+            <button class="chip" data-val="ecom">Other ecom</button>
+            <button class="chip" data-val="saas">SaaS</button>
+            <button class="chip" data-val="local">Local services</button>
+          </div>
+        </div>
+
+        <div class="refine-row">
+          <div class="refine-label">Region focus</div>
+          <div class="chips" data-group="region">
+            <button class="chip active" data-val="na">NA</button>
+            <button class="chip" data-val="eu">EU</button>
+            <button class="chip" data-val="apac">APAC</button>
+            <button class="chip" data-val="glob">Global</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="signup-mockup">
+        <h5>See the exact recoverable amount</h5>
+        <input class="signup-input" type="text" value="Work email" disabled>
+        <input class="signup-input" type="text" value="Company name" disabled>
+        <a class="signup-cta" href="#">Connect Google Ads to validate →</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="flow">
+    <h2>4 · How refinement updates the agent</h2>
+    <p class="section-sub">Backend flow when a chip is tapped. Same telemetry hook that logs estimate-vs-actual now also logs estimate-vs-self-reported, which gives us a second feedback loop.</p>
+
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-num">1</div>
+        <div class="flow-body">
+          <div class="ft">Initial estimate runs on domain alone</div>
+          <div class="fs">BuiltWith + business profile + benchmark model produce the seed range. <code>save_website_info</code> caches it. Signup form mounts immediately.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">2</div>
+        <div class="flow-body">
+          <div class="ft">User taps a chip</div>
+          <div class="fs">Frontend POSTs <code>{ session_id, dimension, value }</code> to <code>/refine_estimate</code>. No model call needed for the recompute — it's a deterministic re-key against the benchmark model with the user's anchor as the override.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">3</div>
+        <div class="flow-body">
+          <div class="ft">Backend recalibrates and returns new range</div>
+          <div class="fs">Order of precedence: user inputs override inferred values. New range and savings projection returned in same response. Sub-100ms target.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">4</div>
+        <div class="flow-body">
+          <div class="ft">Frontend animates the number</div>
+          <div class="fs">Bolded number in the agent message animates to the new value (250ms ease). Recovery range below animates in parallel. Source receipt updates if the new estimate draws on different cohort sample sizes.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">5</div>
+        <div class="flow-body">
+          <div class="ft">Telemetry logs the override</div>
+          <div class="fs">User-supplied value, original inferred value, and dimension stored. After signup + connect, we get the actual — three-way comparison feeds the calibration loop quarterly.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="strategy-rules">
+    <h2>5 · Behaviour rules for input handling</h2>
+    <p class="section-sub">When inputs disagree with inference, when to ask, when to stay silent.</p>
+
+    <div class="rules">
+      <div class="rule">
+        <div class="rule-head">
+          <div class="rule-icon">1</div>
+          <div class="rule-name">User input always wins</div>
+        </div>
+        <p class="rule-desc">If the user reports $25–100K ad spend and BuiltWith inferred small, the user is right. Override silently. Never argue with self-reported data.</p>
+      </div>
+      <div class="rule">
+        <div class="rule-head">
+          <div class="rule-icon">2</div>
+          <div class="rule-name">Show the receipt change</div>
+        </div>
+        <p class="rule-desc">When inputs change the cohort, the source line updates. "Based on 47 similar accounts" → "Based on 12 similar accounts at your reported scale." Smaller N is honest, not weak.</p>
+      </div>
+      <div class="rule">
+        <div class="rule-head">
+          <div class="rule-icon">3</div>
+          <div class="rule-name">Never block on inputs</div>
+        </div>
+        <p class="rule-desc">Signup form is always tappable. The refinement panel collapses when scrolled past. If the user signs up without tapping a chip, that's a successful conversion, not a missed step.</p>
+      </div>
+      <div class="rule">
+        <div class="rule-head">
+          <div class="rule-icon">4</div>
+          <div class="rule-name">Big disagreements → soft surface</div>
+        </div>
+        <p class="rule-desc">If user reports $500K+ when we inferred &lt;$5K, the agent surfaces a one-liner: "That's significantly above what we usually see for your stack — connecting your account will give you the exact number." Acknowledges the gap without questioning the user.</p>
+      </div>
+      <div class="rule">
+        <div class="rule-head">
+          <div class="rule-icon">5</div>
+          <div class="rule-name">No follow-up questions</div>
+        </div>
+        <p class="rule-desc">Chips are the entire input surface. Agent never asks "can you tell me more about your business?" or "what's your revenue?" The flow remains one-shot. If we need more, we get it post-signup.</p>
+      </div>
+      <div class="rule">
+        <div class="rule-head">
+          <div class="rule-icon">6</div>
+          <div class="rule-name">Carry refinements forward</div>
+        </div>
+        <p class="rule-desc">Self-reported values join <code>tech_profile</code> and <code>business_profile</code> in the session row, then promote to the website record on signup. Onboarding agent picks up where pre-signup left off — no re-asking.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <h4>The conversion math</h4>
+      <p>If 30% of visitors tap at least one chip and the chips lift estimate accuracy from ±60% to ±25%, the post-signup connect rate should improve materially because the pre-signup number now matches the post-connect actual closely enough to feel honest. The metric to watch: ratio of pre-signup estimate to post-connect actual. Target band: 0.7×–1.3×.</p>
+    </div>
+  </section>
+
+  <footer>
+    Vaudit · Estimation accuracy strategy · Working draft for review
+  </footer>
+
+</div>
+</div>
+
+<div class="panel" id="panel-roadmap">
+<div class="page">
   <header>
     <div class="brand">
       <div class="brand-mark">V</div>
@@ -575,6 +1227,513 @@
   </footer>
 
 </div>
+</div>
+
+<div class="panel" id="panel-prototype">
+<div class="page">
+  <header>
+    <div class="brand">
+      <div class="brand-mark">V</div>
+      <div class="brand-name">Vaudit</div>
+    </div>
+    <h1>Agent behaviour prototype</h1>
+    <p class="sub">Interactive prototype of the conversational flow plus annotated specs for each state.</p>
+    <p class="meta">Pre-signup agent · Working draft · Companion to roadmap</p>
+  </header>
+
+  <nav class="toc">
+    <a href="#proto-section">1 · Live prototype</a>
+    <a href="#state-1">2 · States — pitch</a>
+    <a href="#state-2">3 · States — refinement</a>
+    <a href="#state-3">4 · States — disagreement</a>
+    <a href="#state-4">5 · States — multi-ID</a>
+    <a href="#state-5">6 · States — handoff</a>
+    <a href="#rules">7 · Behaviour rules</a>
+  </nav>
+
+  <section id="proto-section">
+    <h2>1 · Live prototype</h2>
+    <p class="section-sub">Tap any chip to see the agent's number recalibrate live. Tap the highest spend chip while keeping team size small to trigger the big-disagreement soft surface. Tap "Show me Seat ID instead" to see the lateral expansion behaviour.</p>
+
+    <div class="live-banner">
+      <span class="live-dot"></span>
+      <span>This prototype is interactive — try the chips and buttons below.</span>
+    </div>
+
+    <div class="proto">
+      <div class="domain-bar">
+        <span class="arrow">›</span>
+        <span class="domain">acme.com</span>
+        <span class="audit-btn">AUDIT MY VENDORS</span>
+      </div>
+
+      <div class="sizing">
+        <span class="sizing-tag">Detected</span>
+        <span id="sizingText">DTC apparel · 10–50 employees · NA · Shopify + Klaviyo + Google Ads</span>
+      </div>
+
+      <div class="agent-msg" id="agentMsg">
+        Looks like you run a DTC apparel store. Stores at your size on Shopify with Google Ads + Meta typically run <span class="number" id="spendRange">$20K–$40K/month</span> across these platforms, and our audits typically recover <span class="number" id="recoveryRange">$3K–$8K/month</span> in waste.
+      </div>
+      <span class="source" id="sourceLine">Based on patterns across 47 similar audited accounts</span>
+
+      <div class="soft-alert" id="softAlert">
+        That's significantly above what we usually see for your stack — connecting your account will give you the exact number.
+      </div>
+
+      <div class="refine">
+        <div class="refine-head">
+          <span class="refine-title">Sharpen the number</span>
+          <span class="refine-skip">↓ skip to signup</span>
+        </div>
+
+        <div class="refine-row">
+          <div class="refine-label">Monthly ad spend</div>
+          <div class="chips" data-group="spend">
+            <button class="chip" data-val="lt5">&lt;$5K</button>
+            <button class="chip active" data-val="5to25">$5–25K</button>
+            <button class="chip" data-val="25to100">$25–100K</button>
+            <button class="chip" data-val="100to500">$100–500K</button>
+            <button class="chip" data-val="gt500">$500K+</button>
+          </div>
+        </div>
+
+        <div class="refine-row">
+          <div class="refine-label">Team size</div>
+          <div class="chips" data-group="team">
+            <button class="chip" data-val="s">1–10</button>
+            <button class="chip active" data-val="m">10–50</button>
+            <button class="chip" data-val="l">50–250</button>
+            <button class="chip" data-val="xl">250+</button>
+          </div>
+        </div>
+
+        <div class="refine-row">
+          <div class="refine-label">Vertical (we detected DTC apparel)</div>
+          <div class="chips" data-group="vert">
+            <button class="chip active" data-val="dtc">DTC apparel</button>
+            <button class="chip" data-val="ecom">Other ecom</button>
+            <button class="chip" data-val="saas">SaaS</button>
+            <button class="chip" data-val="local">Local services</button>
+          </div>
+        </div>
+
+        <div class="refine-row">
+          <div class="refine-label">Region focus</div>
+          <div class="chips" data-group="region">
+            <button class="chip active" data-val="na">NA</button>
+            <button class="chip" data-val="eu">EU</button>
+            <button class="chip" data-val="apac">APAC</button>
+            <button class="chip" data-val="glob">Global</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="expand" id="expandPanel">
+        <div class="expand-label">Top opportunity</div>
+        <div class="expand-text">
+          Your largest opportunity is <strong>Ad ID</strong> at <span class="number" id="expandTop">$3K–$8K/month</span>. Connect Google Ads to break down which campaigns are typically driving the waste.
+        </div>
+        <div class="expand-actions">
+          <button class="btn btn-primary">Connect Google Ads →</button>
+          <button class="btn btn-lateral" id="lateralBtn">Show me Seat ID instead</button>
+        </div>
+      </div>
+
+      <div class="signup">
+        <h5>See the exact recoverable amount</h5>
+        <a class="signup-cta-proto" href="#" onclick="event.preventDefault()">Connect &amp; start audit →</a>
+        <a class="signup-secondary" href="#" onclick="event.preventDefault()">Email me the report instead</a>
+      </div>
+    </div>
+
+    <div class="try-it">
+      <strong>Try this:</strong>
+      <span>Tap <em>$500K+</em> on monthly ad spend (with team size 1–10) to see the soft-surface message appear.</span>
+    </div>
+  </section>
+
+  <section id="state-1">
+    <h2>2 · State 1 — initial pitch</h2>
+    <p class="section-sub">First message after the user submits a domain. The visible behaviour change vs today is the sizing readout that runs but isn't shown.</p>
+
+    <div class="state">
+      <div class="state-head">
+        <span class="state-num">1</span>
+        <span class="state-title">Initial pitch</span>
+        <span class="state-trigger">trigger: domain submitted</span>
+      </div>
+      <div class="state-grid">
+        <div class="state-col">
+          <h6>What the user sees</h6>
+          <div class="ex">
+            "Detected: DTC apparel · 10–50 employees · NA · Shopify + Klaviyo + Google Ads.<br><br>Looks like you run a DTC apparel store. Stores at your size on Shopify with Google Ads + Meta typically run <span class="number">$20K–$40K/month</span> across these platforms, and our audits typically recover <span class="number">$3K–$8K/month</span> in waste."<br><br>"Based on patterns across 47 similar audited accounts"
+          </div>
+        </div>
+        <div class="state-col">
+          <h6>Behaviour rules</h6>
+          <ul>
+            <li><strong>Sizing readout first.</strong> Show what was detected before showing the number. Recognition gates belief.</li>
+            <li><strong>Range, not point.</strong> Numbers always shown as low–high bands. No point estimates anywhere.</li>
+            <li><strong>Source receipt below.</strong> "Based on N similar accounts" — N pulled from internal audited data.</li>
+            <li><strong>Validation language.</strong> Never "estimate," "AI-generated," "inferred from benchmarks." Always "patterns across similar accounts."</li>
+            <li><strong>Two numbers, two ranges.</strong> Spend range and recovery range — never a single number.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="state-2">
+    <h2>3 · State 2 — refinement chip tapped</h2>
+    <p class="section-sub">User taps any chip in the refinement panel. The numbers above recalibrate live. The source line updates if the cohort changed.</p>
+
+    <div class="state">
+      <div class="state-head">
+        <span class="state-num">2</span>
+        <span class="state-title">Refinement chip tapped</span>
+        <span class="state-trigger">trigger: chip click</span>
+      </div>
+      <div class="state-grid">
+        <div class="state-col">
+          <h6>What changes</h6>
+          <div class="ex">
+            User taps <em>$25–100K</em> on monthly ad spend.<br><br>
+            Spend range fades to <span class="number">$25K–$100K/month</span> (250ms ease). Recovery range fades to <span class="number">$3K–$12K/month</span>. Source line updates to "Based on 12 at your reported scale."
+          </div>
+        </div>
+        <div class="state-col">
+          <h6>Behaviour rules</h6>
+          <ul>
+            <li><strong>User input always wins.</strong> If the user reports $25K when we inferred $5K, the user is right. Override silently.</li>
+            <li><strong>Live recalibration.</strong> No "click to update." Numbers animate immediately on tap (250ms ease).</li>
+            <li><strong>Cohort-aware source line.</strong> When the chip shifts the matching cohort, N updates. Smaller N is honest, not weak.</li>
+            <li><strong>Deterministic recompute.</strong> No model call needed — re-key against the benchmark with user input as override. Sub-100ms.</li>
+            <li><strong>Signup form stays mounted.</strong> Chip taps never push the form below the fold or remount it.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="state-3">
+    <h2>4 · State 3 — big-disagreement soft surface</h2>
+    <p class="section-sub">User input is wildly inconsistent with what we inferred from BuiltWith and firmographics. Agent acknowledges the gap without questioning the user.</p>
+
+    <div class="state">
+      <div class="state-head">
+        <span class="state-num">3</span>
+        <span class="state-title">Big-disagreement soft surface</span>
+        <span class="state-trigger">trigger: gap above threshold</span>
+      </div>
+      <div class="state-grid">
+        <div class="state-col">
+          <h6>What the user sees</h6>
+          <div class="ex">
+            User reports <em>$500K+</em> spend on a stack we inferred as small ($5K–25K range).<br><br>
+            Agent surfaces an amber-bordered note below the main pitch:<br><br>
+            "That's significantly above what we usually see for your stack — connecting your account will give you the exact number."
+          </div>
+        </div>
+        <div class="state-col">
+          <h6>Behaviour rules</h6>
+          <ul>
+            <li><strong>Threshold for triggering.</strong> Soft surface fires when user-reported value is &gt;3× the inferred top of range.</li>
+            <li><strong>Acknowledge, don't question.</strong> Never "are you sure?" Always "connecting will give you the exact number."</li>
+            <li><strong>Soft styling, not alarm.</strong> Amber accent border, not red. Information, not warning.</li>
+            <li><strong>Drives toward connect.</strong> The disagreement becomes a connect-to-validate prompt, not friction.</li>
+            <li><strong>Numbers still recalibrate.</strong> The user's input still overrides — the soft surface is additional, not blocking.</li>
+            <li><strong>Auto-collapses if user revises down.</strong> If they tap a smaller chip after, the alert hides on its own.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="state-4">
+    <h2>5 · State 4 — multi-ID expansion</h2>
+    <p class="section-sub">Below the main pitch, the agent surfaces the largest opportunity by ID category. Two CTAs — connect to drill into that ID, or pivot laterally to the next one.</p>
+
+    <div class="state">
+      <div class="state-head">
+        <span class="state-num">4</span>
+        <span class="state-title">Multi-ID expansion</span>
+        <span class="state-trigger">trigger: post-pitch render</span>
+      </div>
+      <div class="state-grid">
+        <div class="state-col">
+          <h6>What the user sees</h6>
+          <div class="ex">
+            "Top opportunity"<br><br>
+            "Your largest opportunity is <strong>Ad ID</strong> at <span class="number">$3K–$8K/month</span>. Connect Google Ads to break down which campaigns are typically driving the waste."<br><br>
+            <strong>[Connect Google Ads →]</strong> &nbsp; [Show me Seat ID instead]
+          </div>
+        </div>
+        <div class="state-col">
+          <h6>Behaviour rules</h6>
+          <ul>
+            <li><strong>Always lead with the largest dollar opportunity.</strong> Rank IDs by inferred value; surface the top one first.</li>
+            <li><strong>Two CTAs — primary and lateral.</strong> Primary drives connect for that ID. Lateral pivots to the next biggest opportunity.</li>
+            <li><strong>Lateral is a soft pivot, not dismissal.</strong> "Show me Seat ID instead" — they're still in the funnel, just looking at a different category.</li>
+            <li><strong>Post-connect, expansion continues.</strong> After the user connects one platform, agent surfaces the next biggest opportunity. Progressive commitment.</li>
+            <li><strong>Never push expansion before first connect.</strong> Pre-connect, the funnel goal is the first connect. Don't pre-empt.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="state-5">
+    <h2>6 · State 5 — connect-to-validate handoff</h2>
+    <p class="section-sub">The close. Primary CTA drives signup + OAuth in one step. Secondary drops the user into email capture if they're not ready to connect.</p>
+
+    <div class="state">
+      <div class="state-head">
+        <span class="state-num">5</span>
+        <span class="state-title">Connect-to-validate handoff</span>
+        <span class="state-trigger">trigger: signup CTA tap</span>
+      </div>
+      <div class="state-grid">
+        <div class="state-col">
+          <h6>What the user sees</h6>
+          <div class="ex">
+            "See the exact recoverable amount"<br><br>
+            <strong>[Connect &amp; start audit →]</strong><br><br>
+            <em>Email me the report instead</em>
+          </div>
+        </div>
+        <div class="state-col">
+          <h6>Behaviour rules</h6>
+          <ul>
+            <li><strong>Connect-to-validate is primary.</strong> Replace the email-PDF download as the primary path. Email + PDF stays available as secondary.</li>
+            <li><strong>Reframe the close.</strong> Not "see your report" — "see the exact recoverable amount." Specific outcome, not generic deliverable.</li>
+            <li><strong>Pre-fill from session.</strong> Self-reported chips and the detected sizing both promote into the signup record. Onboarding agent picks up where pre-signup left off.</li>
+            <li><strong>Connect button = OAuth flow.</strong> One tap to OAuth Google Ads (or Meta, or Shopify). No intermediate "create account" step.</li>
+            <li><strong>Refusal handling.</strong> If user picks email-me-instead, capture the email and let them skip OAuth — fall back gracefully to estimate-first onboarding.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="rules">
+    <h2>7 · Behaviour rules — global</h2>
+    <p class="section-sub">Cross-state rules that apply across the whole conversational flow.</p>
+
+    <div class="rules">
+      <div class="rule">
+        <div class="rule-head"><div class="rule-icon">1</div><div class="rule-name">Domain alone always works</div></div>
+        <p class="rule-desc">The agent delivers a complete pitch and signup form on domain alone. Refinement chips are upsell, never blockers.</p>
+      </div>
+      <div class="rule">
+        <div class="rule-head"><div class="rule-icon">2</div><div class="rule-name">Single-tap inputs only</div></div>
+        <p class="rule-desc">No free text, no multi-turn questions. Chips and toggles. If a user can't answer in one tap, the question doesn't ship.</p>
+      </div>
+      <div class="rule">
+        <div class="rule-head"><div class="rule-icon">3</div><div class="rule-name">User input always wins</div></div>
+        <p class="rule-desc">Self-reported values override inferred values silently. Never argue with the user.</p>
+      </div>
+      <div class="rule">
+        <div class="rule-head"><div class="rule-icon">4</div><div class="rule-name">Live recalibration</div></div>
+        <p class="rule-desc">Every chip tap updates the displayed range immediately. No "submit" button. The user sees the number move.</p>
+      </div>
+      <div class="rule">
+        <div class="rule-head"><div class="rule-icon">5</div><div class="rule-name">Validation language only</div></div>
+        <p class="rule-desc">Never "estimate," "AI-generated," "inferred." Always "based on patterns across similar accounts."</p>
+      </div>
+      <div class="rule">
+        <div class="rule-head"><div class="rule-icon">6</div><div class="rule-name">Show the receipt change</div></div>
+        <p class="rule-desc">When inputs shift the cohort, the source line updates. Smaller N is honest — surface it, don't hide it.</p>
+      </div>
+      <div class="rule">
+        <div class="rule-head"><div class="rule-icon">7</div><div class="rule-name">Never block on inputs</div></div>
+        <p class="rule-desc">Signup form is always tappable. If the user signs up without tapping a chip, that's a successful conversion.</p>
+      </div>
+      <div class="rule">
+        <div class="rule-head"><div class="rule-icon">8</div><div class="rule-name">Big disagreements → soft surface</div></div>
+        <p class="rule-desc">When user input is wildly inconsistent with inference, agent acknowledges with one line. Never questions the user.</p>
+      </div>
+      <div class="rule">
+        <div class="rule-head"><div class="rule-icon">9</div><div class="rule-name">Lead with largest opportunity</div></div>
+        <p class="rule-desc">Multi-ID expansion always surfaces the biggest dollar opportunity first. Users follow the money.</p>
+      </div>
+      <div class="rule">
+        <div class="rule-head"><div class="rule-icon">10</div><div class="rule-name">Carry context forward</div></div>
+        <p class="rule-desc">Self-reported values, sizing detection, and chip overrides all promote to the website record on signup. Onboarding never re-asks.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <h4>The conversion math</h4>
+      <p>Target metric: ratio of pre-signup estimate to post-connect actual, target band 0.7×–1.3×. If 30% of visitors tap at least one chip and the chips lift estimate accuracy from ±60% to ±25%, the post-signup connect rate should improve materially because the pre-signup number now matches the post-connect actual closely enough to feel honest.</p>
+    </div>
+  </section>
+
+  <footer>
+    Vaudit · Agent behaviour prototype · Working draft for review
+  </footer>
+
+</div>
+</div>
+
+<script>
+  // Tab switching
+  const tabs = document.querySelectorAll('.tab');
+  const panels = document.querySelectorAll('.panel');
+  function activateTab(name) {
+    tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === name));
+    panels.forEach(p => p.classList.toggle('active', p.id === 'panel-' + name));
+    history.replaceState(null, '', '#' + name);
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => activateTab(tab.dataset.tab));
+  });
+  // Restore from hash on load
+  const hash = location.hash.replace('#', '');
+  if (['strategy', 'roadmap', 'prototype'].includes(hash)) {
+    activateTab(hash);
+  }
+
+  // === Strategy page chip handler (scoped) ===
+  const strategySpendMap = {
+    lt5:       { spend: '< $5K/month',     rec: '< $1K/month' },
+    '5to25':   { spend: '$5–25K/month',    rec: '$750–3K/month' },
+    '25to100': { spend: '$25–100K/month',  rec: '$3K–12K/month' },
+    '100to500':{ spend: '$100–500K/month', rec: '$12K–60K/month' },
+    gt500:     { spend: '$500K+/month',    rec: '$60K+/month' }
+  };
+
+  document.querySelectorAll('#panel-strategy .chips').forEach(group => {
+    group.addEventListener('click', e => {
+      const chip = e.target.closest('.chip');
+      if (!chip) return;
+      group.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+
+      if (group.dataset.group === 'spend') {
+        const map = strategySpendMap[chip.dataset.val];
+        if (map) {
+          const spendEl = document.getElementById('strategy-spendRange');
+          const recEl = document.getElementById('strategy-recoveryRange');
+          if (!spendEl || !recEl) return;
+          spendEl.style.transition = 'opacity 0.2s';
+          recEl.style.transition = 'opacity 0.2s';
+          spendEl.style.opacity = '0';
+          recEl.style.opacity = '0';
+          setTimeout(() => {
+            spendEl.textContent = map.spend;
+            recEl.textContent = map.rec;
+            spendEl.style.opacity = '1';
+            recEl.style.opacity = '1';
+          }, 200);
+        }
+      }
+    });
+  });
+
+  // === Prototype page (scoped) ===
+  const protoSpendMap = {
+    lt5:       { spend: '<$5K/month',      rec: '<$1K/month',       expand: '<$1K/month' },
+    '5to25':   { spend: '$5–25K/month',    rec: '$750–3K/month',    expand: '$750–3K/month' },
+    '25to100': { spend: '$25–100K/month',  rec: '$3K–12K/month',    expand: '$3K–12K/month' },
+    '100to500':{ spend: '$100–500K/month', rec: '$12K–60K/month',   expand: '$12K–60K/month' },
+    gt500:     { spend: '$500K+/month',    rec: '$60K+/month',      expand: '$60K+/month' }
+  };
+
+  const cohortSizes = {
+    lt5: 8, '5to25': 47, '25to100': 23, '100to500': 12, gt500: 4
+  };
+
+  const spendOrder = ['lt5', '5to25', '25to100', '100to500', 'gt500'];
+  const teamOrder = ['s', 'm', 'l', 'xl'];
+
+  const protoState = {
+    spend: '5to25',
+    team: 'm',
+    vert: 'dtc',
+    region: 'na',
+    inferredSpendIdx: 1
+  };
+
+  function checkBigDisagreement() {
+    const userIdx = spendOrder.indexOf(protoState.spend);
+    const inferredIdx = protoState.inferredSpendIdx;
+    const teamIdx = teamOrder.indexOf(protoState.team);
+    return (userIdx - inferredIdx >= 2) && teamIdx <= 1;
+  }
+
+  function updateProtoUI() {
+    const map = protoSpendMap[protoState.spend];
+    if (!map) return;
+
+    const spendEl = document.getElementById('spendRange');
+    const recEl = document.getElementById('recoveryRange');
+    const expandEl = document.getElementById('expandTop');
+    const sourceEl = document.getElementById('sourceLine');
+    const softAlert = document.getElementById('softAlert');
+    if (!spendEl) return;
+
+    spendEl.style.opacity = '0';
+    recEl.style.opacity = '0';
+    expandEl.style.opacity = '0';
+
+    setTimeout(() => {
+      spendEl.textContent = map.spend;
+      recEl.textContent = map.rec;
+      expandEl.textContent = map.expand;
+      spendEl.style.opacity = '1';
+      recEl.style.opacity = '1';
+      expandEl.style.opacity = '1';
+
+      const cohortN = cohortSizes[protoState.spend];
+      if (protoState.spend === '5to25') {
+        sourceEl.textContent = 'Based on patterns across 47 similar audited accounts';
+      } else {
+        sourceEl.textContent = 'Based on ' + cohortN + ' similar accounts at your reported scale';
+      }
+    }, 200);
+
+    if (checkBigDisagreement()) {
+      softAlert.classList.add('show');
+    } else {
+      softAlert.classList.remove('show');
+    }
+  }
+
+  document.querySelectorAll('#panel-prototype .chips').forEach(group => {
+    group.addEventListener('click', e => {
+      const chip = e.target.closest('.chip');
+      if (!chip) return;
+      group.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      protoState[group.dataset.group] = chip.dataset.val;
+      updateProtoUI();
+    });
+  });
+
+  const lateralBtn = document.getElementById('lateralBtn');
+  if (lateralBtn) {
+    lateralBtn.addEventListener('click', () => {
+      const expandPanel = document.getElementById('expandPanel');
+      const label = expandPanel.querySelector('.expand-label');
+      const text = expandPanel.querySelector('.expand-text');
+      const btn = expandPanel.querySelector('.btn-primary');
+
+      expandPanel.style.transition = 'opacity 0.2s';
+      expandPanel.style.opacity = '0';
+
+      setTimeout(() => {
+        label.textContent = 'Next opportunity';
+        text.innerHTML = 'Your next biggest opportunity is <strong>Seat ID</strong> at <span class="number">$1.2K–$3K/month</span>. Connect Google Workspace to find unused licenses and tool overlap.';
+        btn.textContent = 'Connect Google Workspace →';
+        lateralBtn.textContent = 'Show me Kloud ID instead';
+        expandPanel.style.opacity = '1';
+      }, 200);
+    });
+  }
+
+</script>
 
 </body>
 </html>
