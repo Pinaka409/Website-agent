@@ -275,6 +275,25 @@
   .sizing-tag { font-weight: 700; font-size: 10px; padding: 2px 8px; background: var(--purple); color: #fff; border-radius: 4px; letter-spacing: 0.04em; }
 
   .source { display: block; font-size: 12px; color: var(--text-dim); margin: 6px 0 16px; }
+  .conf-pill { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 4px; font-weight: 700; letter-spacing: 0.04em; margin-left: 8px; vertical-align: middle; transition: background 0.2s, color 0.2s; }
+  .conf-high { background: var(--teal-soft); color: var(--teal); }
+  .conf-med { background: var(--amber-soft); color: var(--amber); }
+  .conf-low { background: var(--red-soft); color: var(--red); }
+  .token-card-note {
+    background: var(--purple-soft);
+    border: 1px solid #D9D5F5;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin: 12px 0 16px;
+    font-size: 12px;
+    color: #26215C;
+    line-height: 1.5;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .token-card-note strong { color: var(--purple); font-weight: 700; }
 
   .soft-alert {
     background: var(--amber-soft);
@@ -422,6 +441,10 @@
     <h2>1 · Signal sources for accuracy</h2>
     <p class="section-sub">Organized by what each source actually contributes to the estimation formula. Cards with the orange outline are the recommended adds.</p>
 
+    <div class="proposal-note" style="background: #EAF3DE; color: #3B6D11; border-color: #C0DD97;">
+      <strong style="color: #3B6D11;">Marketing recommendation incorporated.</strong> Source picks below reflect the data-source recommendations from marketing's handover report (April 2026). Most consequential change: <strong style="color: #3B6D11;">SimilarWeb</strong> is now the keystone Ad ID source (was deferred); <strong style="color: #3B6D11;">SEMrush</strong> moved to conditional Phase 3.
+    </div>
+
     <div class="legend">
       <span class="legend-item"><span class="legend-sw" style="background: var(--teal);"></span>Free / public</span>
       <span class="legend-item"><span class="legend-sw" style="background: var(--amber);"></span>Mid-cost paid</span>
@@ -468,19 +491,19 @@
       </div>
       <p class="group-desc">Only fire premium tools when firmographics flag mid-market or larger. Free tier covers the long tail.</p>
       <div class="src-grid">
-        <div class="src">
-          <div class="src-head"><span class="src-name">SimilarWeb API</span><span class="badge b-hi">$14k–90k+/yr</span></div>
-          <p class="src-desc">Visits, traffic sources, channel mix, audience overlap.</p>
-          <div class="src-row"><span class="lab">Lift</span><span class="val">High but expensive</span></div>
-          <div class="src-row"><span class="lab">Best for</span><span class="val">Mid-market+ only</span></div>
-          <div class="src-phase">phase 3, gated</div>
-        </div>
         <div class="src rec">
-          <div class="src-head"><span class="src-name">SEMrush Trends Basic <span class="rec-tag">PICK</span></span><span class="badge b-mid">$500/mo + units</span></div>
-          <p class="src-desc">Traffic summaries, behavior, paid-vs-organic split. Cheaper than SimilarWeb.</p>
-          <div class="src-row"><span class="lab">Lift</span><span class="val">Medium-high, lower cost</span></div>
+          <div class="src-head"><span class="src-name">SimilarWeb API <span class="rec-tag">PICK</span></span><span class="badge b-mid">$199–500+/mo</span></div>
+          <p class="src-desc">Visits, traffic sources, channel mix, audience overlap. Only credible source for Display / Programmatic spend signal.</p>
+          <div class="src-row"><span class="lab">Lift</span><span class="val">Highest — keystone for Ad ID</span></div>
           <div class="src-row"><span class="lab">Best for</span><span class="val">Primary traffic source</span></div>
-          <div class="src-phase">phase 3 preferred</div>
+          <div class="src-phase">phase 2 — sales engages in phase 1</div>
+        </div>
+        <div class="src">
+          <div class="src-head"><span class="src-name">SEMrush API</span><span class="badge b-mid">$140/mo</span></div>
+          <p class="src-desc">Paid keyword spend (Google + Bing). Demoted to conditional after marketing review — SimilarWeb's traffic-source share may be sufficient on its own.</p>
+          <div class="src-row"><span class="lab">Lift</span><span class="val">Medium — overlaps SimilarWeb</span></div>
+          <div class="src-row"><span class="lab">Best for</span><span class="val">Keyword-level granularity</span></div>
+          <div class="src-phase">phase 3 — conditional</div>
         </div>
         <div class="src">
           <div class="src-head"><span class="src-name">DataForSEO</span><span class="badge b-mid">$30 per 1M credits</span></div>
@@ -504,7 +527,7 @@
         <span class="group-num">Group 3</span>
         <span class="group-title">Ad spend signal — sharpens ADID directly</span>
       </div>
-      <p class="group-desc">Public ad libraries are free and underused. SpyFu is the cheap commercial layer if needed.</p>
+      <p class="group-desc">Public ad libraries do most of the work for ad-presence detection. Marketing's recommendation: rely on these plus SimilarWeb's traffic-share data; commercial keyword tools (SpyFu, SEMrush) are conditional adds.</p>
       <div class="src-grid">
         <div class="src rec">
           <div class="src-head"><span class="src-name">Google Ads Transparency <span class="rec-tag">PICK</span></span><span class="badge b-free">free</span></div>
@@ -523,9 +546,9 @@
         <div class="src">
           <div class="src-head"><span class="src-name">SpyFu API</span><span class="badge b-mid">$79/mo + $0.50/1k rows</span></div>
           <p class="src-desc">Estimated Google Ads monthly spend, top keywords, history.</p>
-          <div class="src-row"><span class="lab">Lift</span><span class="val">High for ADID, Google only</span></div>
-          <div class="src-row"><span class="lab">Best for</span><span class="val">Direct $ estimate, US/UK</span></div>
-          <div class="src-phase">phase 2 candidate</div>
+          <div class="src-row"><span class="lab">Lift</span><span class="val">Overlaps SimilarWeb on Search</span></div>
+          <div class="src-row"><span class="lab">Best for</span><span class="val">US/UK keyword granularity</span></div>
+          <div class="src-phase">deferred — not picked by marketing</div>
         </div>
         <div class="src">
           <div class="src-head"><span class="src-name">Adbeat</span><span class="badge b-hi">$249–999+/mo</span></div>
@@ -612,11 +635,14 @@
     <p class="section-sub">Three paid integrations and the free wiring. That's the entire net-new spend.</p>
 
     <div class="callout">
-      <h4>Recommended adds</h4>
+      <h4>Recommended adds (post marketing review)</h4>
       <ul>
-        <li><strong>Apollo or People Data Labs</strong> for firmographics — single integration, feeds every formula. ($60–150/mo subscription, or pay-per-lookup if usage is bursty.)</li>
-        <li><strong>Free public signals</strong> — Google Transparency, Meta Ad Library, carrier rate cards, cloud pricing APIs, G2 medians. Wire all of these. No incremental spend.</li>
-        <li><strong>SEMrush Trends Basic</strong> for traffic baseline — only fired when firmographics flag mid-market+. Tiering matters; you don't want to burn API units on a $5M D2C lookup.</li>
+        <li><strong>BuiltWith</strong> at $295/mo — most leveraged paid API in the stack, cross-cuts all three Vaudit categories.</li>
+        <li><strong>Apollo</strong> at $99/mo — firmographics for revenue band → drives Vendor ID benchmark math.</li>
+        <li><strong>Browserless</strong> at ~$50/mo — JS-rendered DOM scrape for chatbots and ad pixels not visible in static HTML.</li>
+        <li><strong>SimilarWeb</strong> at $199–500+/mo — keystone Ad ID source. Only credible signal for Display / Programmatic spend. Sales engagement starts in Phase 1; production launch in Phase 2.</li>
+        <li><strong>Free utility sources</strong> — crt.sh, GitHub Search × 6, DNS-over-HTTPS × 3, AWS/GCP IP ranges, Meta Ad Library, Google Ads Transparency, TikTok Creative Center, LinkedIn Ad Library. Wire all. ~$50/mo extra for residential proxy if LinkedIn scrape goes to production.</li>
+        <li><strong>Total v1 monthly cost: ~$783/mo</strong> across 17 sources.</li>
       </ul>
     </div>
 
@@ -626,11 +652,12 @@
         <tr><th style="width: 30%;">Source</th><th style="width: 70%;">Reason</th></tr>
       </thead>
       <tbody>
-        <tr><td>Adbeat</td><td class="dim">$249–999+/mo for display-only spend. Niche and overlapping with SpyFu/SEMrush. Defer until display becomes a major focus.</td></tr>
-        <tr><td>Clearbit standalone</td><td class="dim">Now bundled into HubSpot Breeze — standalone API surface is being deprecated. Apollo or PDL is cleaner today.</td></tr>
-        <tr><td>LinkedIn scraping</td><td class="dim">TOS violation, brittle, and Apollo/PDL legitimately cover headcount.</td></tr>
-        <tr><td>Datadog / New Relic detection</td><td class="dim">Patchy detectability, low signal value. Skip.</td></tr>
-        <tr><td>SimilarWeb (full)</td><td class="dim">$14k–90k+/yr is too much when SEMrush Trends Basic covers the use case. Negotiate only if SEMrush coverage testing reveals a real gap.</td></tr>
+        <tr><td>SEMrush API</td><td class="dim">$140/mo. Demoted to Phase 3 conditional. SimilarWeb's traffic-source share may be sufficient on its own; SEMrush adds keyword-level granularity that's only meaningful for keyword-specific waste signals.</td></tr>
+        <tr><td>Sensor Tower / data.ai</td><td class="dim">Enterprise pricing. Deferred per marketing — only revisit if customer demand for mobile-install advertiser audits emerges.</td></tr>
+        <tr><td>Adbeat</td><td class="dim">$249–999+/mo for display-only spend. Overlaps with SimilarWeb's display share signal at much higher cost.</td></tr>
+        <tr><td>Clearbit standalone</td><td class="dim">Now bundled into HubSpot Breeze — standalone API surface is being deprecated. Apollo is cleaner today.</td></tr>
+        <tr><td>People Data Labs</td><td class="dim">Marketing picked Apollo over PDL on data quality and cost. PDL stays as a fallback if Apollo coverage gaps emerge.</td></tr>
+        <tr><td>LinkedIn API for headcount</td><td class="dim">TOS-restricted and Apollo legitimately covers headcount. LinkedIn Ad Library is still in-scope as a free scrape, but only for ad-presence detection.</td></tr>
       </tbody>
     </table>
   </section>
@@ -867,8 +894,8 @@
     <p class="meta">Pre-signup agent · Working draft · Companion to estimation strategy</p>
   </header>
 
-  <div class="proposal-note">
-    <strong>Proposal — dates and API picks pending.</strong> The timeline below is a working proposal. Specific APIs in the accuracy track depend on marketing's recommendation due Thursday (Jugas's Postman pulls + Chris's prioritization). Phase boundaries can shift.
+  <div class="proposal-note" style="background: #EAF3DE; color: #3B6D11; border-color: #C0DD97;">
+    <strong style="color: #3B6D11;">Marketing recommendation incorporated.</strong> This roadmap reflects the data-source recommendations from the marketing handover report (April 2026). Total v1 monthly cost lands at ~$783/mo across 17 sources. SimilarWeb sales engagement is the critical-path item for Phase 1 production launch.
   </div>
 
   <nav class="toc">
@@ -888,17 +915,17 @@
       <div class="tl-cell p1">
         <div class="tl-date">Phase 1 · ~ May 6 target</div>
         <div class="tl-title">Foundation &amp; first signals</div>
-        <p class="tl-thesis">Six new signal APIs, sizing readout surfaced, validation language live, basic accuracy logging in place.</p>
+        <p class="tl-thesis">Free utilities + ad libraries + BuiltWith + Apollo + Browserless. SimilarWeb sales engagement starts in parallel.</p>
       </div>
       <div class="tl-cell p2">
         <div class="tl-date">Phase 2 · ~ May 12 target</div>
-        <div class="tl-title">Refinement &amp; learning loop</div>
-        <p class="tl-thesis">One more API, refinement chips, conversational override handling, telemetry dashboards.</p>
+        <div class="tl-title">SimilarWeb live + refinement</div>
+        <p class="tl-thesis">SimilarWeb integration, refinement chips, conversational override handling, telemetry dashboards.</p>
       </div>
       <div class="tl-cell p3">
         <div class="tl-date">Phase 3 · backlog</div>
         <div class="tl-title">Compounding accuracy</div>
-        <p class="tl-thesis">Internal benchmark, OAuth pilot, multi-ID conversation, per-vertical reporting.</p>
+        <p class="tl-thesis">Internal benchmark, OAuth pilot, SEMrush conditional, multi-ID conversation, per-vertical reporting.</p>
       </div>
     </div>
   </section>
@@ -931,16 +958,16 @@
       <div class="matrix-row">
         <div class="matrix-label"><span class="lt">Accuracy</span><span class="ls">APIs &amp; signals</span></div>
         <div class="mcell acc-1">
-          <span class="ct">Six signal APIs added</span>
-          <span class="cl">Free public + first paid integrations. Pending marketing pick.</span>
+          <span class="ct">13 sources live</span>
+          <span class="cl">Free utilities + ad libraries + BuiltWith + Apollo + Browserless. SimilarWeb sales engaged.</span>
         </div>
         <div class="mcell acc-2">
-          <span class="ct">+ One more API</span>
-          <span class="cl">Direct ad-spend signal layered onto Phase 1 baseline.</span>
+          <span class="ct">+ SimilarWeb</span>
+          <span class="cl">Traffic + paid-channel share unlocks Display, sharpens Search and Social spend.</span>
         </div>
         <div class="mcell acc-3">
-          <span class="ct">Internal benchmark + premium</span>
-          <span class="cl">Vaudit's audited spend curves. SimilarWeb only if needed.</span>
+          <span class="ct">Internal benchmark + SEMrush</span>
+          <span class="cl">Vaudit's audited spend curves replace placeholder constants. SEMrush only if SimilarWeb gaps.</span>
         </div>
       </div>
 
@@ -963,16 +990,16 @@
       <div class="matrix-row">
         <div class="matrix-label"><span class="lt">Reporting</span><span class="ls">measure &amp; surface</span></div>
         <div class="mcell rep-1">
-          <span class="ct">Source receipts shown</span>
-          <span class="cl">"Based on N similar accounts" line. Basic estimate logging.</span>
+          <span class="ct">Source receipts + confidence</span>
+          <span class="cl">"Based on N accounts" line. High / Medium / Low label from signal-quality formula.</span>
         </div>
         <div class="mcell rep-2">
           <span class="ct">Estimate-vs-actual dashboard</span>
           <span class="cl">First closed loop. Cohort-aware receipt updates.</span>
         </div>
         <div class="mcell rep-3">
-          <span class="ct">Per-vertical accuracy</span>
-          <span class="cl">Quarterly recalibration. Per-domain confidence cache.</span>
+          <span class="ct">Per-vertical calibration</span>
+          <span class="cl">Quarterly retune of WASTE_RATE constants against ground-truth client data.</span>
         </div>
       </div>
     </div>
@@ -990,22 +1017,29 @@
         <span class="phase-title">Foundation &amp; first signals</span>
         <span class="phase-time p1">~ May 6 target</span>
       </div>
-      <p class="phase-thesis">Three slices ship together. The accuracy track adds six signal APIs (specific picks pending marketing recommendation). The behaviour track strips the "estimate" language and surfaces the sizing detection. The reporting track adds the source receipt line so users can see what the agent is anchored on, and starts logging estimates so we have the data to learn from.</p>
+      <p class="phase-thesis">Three slices ship together. The accuracy track turns on 13 sources from marketing's recommended stack — most are free utilities and ad libraries, plus BuiltWith, Apollo, and Browserless. SimilarWeb sales engagement begins in parallel for Phase 2. The behaviour track strips the "estimate" language and surfaces the sizing detection. The reporting track adds source receipts, the confidence label per marketing's signal-quality formula, and starts logging estimates so accuracy is measurable from day one.</p>
 
       <div class="phase-tracks">
         <div class="pt acc">
           <div class="pt-head">
             <span class="pt-tag">Accuracy</span>
-            <span class="pt-title">Six signal APIs integrated</span>
+            <span class="pt-title">13 sources live + Ad Platform Detection layer</span>
           </div>
-          <p class="pt-summary">Specific picks pending Thursday's marketing review. Working assumption is four free public sources + two self-serve paid sources, with the strongest candidates per category listed below.</p>
+          <p class="pt-summary">Marketing's recommended Phase 1 stack. The Ad Platform Detection layer cross-cuts BuiltWith and DOM scraping to identify presence on 14+ ad platforms at $0 marginal cost — runs first; everything downstream depends on it.</p>
           <ul class="work-list">
-            <li><span class="check">→</span><span><strong>Google Ads Transparency Center<span class="api-tag api-free">free</span></strong> — confirms domain is actively running Google Ads. Binary gate for ADID.</span></li>
-            <li><span class="check">→</span><span><strong>Meta Ad Library<span class="api-tag api-free">free</span></strong> — confirms Meta advertising activity. Same gating role for Meta spend in ADID.</span></li>
-            <li><span class="check">→</span><span><strong>Carrier rate cards<span class="api-tag api-free">free</span></strong> — UPS / FedEx / DHL public rates. Wired into SHIPID baseline.</span></li>
-            <li><span class="check">→</span><span><strong>Cloud pricing APIs<span class="api-tag api-free">free</span></strong> — AWS / GCP / Azure unit pricing. Wired into KLOUDID.</span></li>
-            <li><span class="check">→</span><span><strong>Firmographics provider<span class="api-tag api-tbd">pending pick</span></strong> — Apollo or PDL. Headcount, revenue band, vertical confirmation. Marketing data quality test will pick the winner.</span></li>
-            <li><span class="check">→</span><span><strong>Traffic baseline provider<span class="api-tag api-tbd">pending pick</span></strong> — SEMrush Trends Basic is the lead candidate. Marketing's coverage testing across our verticals decides.</span></li>
+            <li><span class="check">→</span><span><strong>Ad Platform Detection<span class="api-tag api-free">$0 marginal</span></strong> — boolean presence on Google, Meta, TikTok, LinkedIn, Pinterest, Reddit, X, Snap, AppLovin, DV360, TTD, Bing, Quora, Spotify. Pixel and DOM matching off existing BuiltWith + Browserless data.</span></li>
+            <li><span class="check">→</span><span><strong>BuiltWith<span class="api-tag api-paid">$295/mo</span></strong> — tech stack + ad pixel detection. Cross-cuts all three Vaudit categories. Most leveraged paid API in the stack.</span></li>
+            <li><span class="check">→</span><span><strong>Apollo<span class="api-tag api-paid">$99/mo</span></strong> — company enrichment, revenue band drives Vendor ID benchmark math (cloud ≈ 1–2% revenue, SaaS ≈ 3–5% revenue).</span></li>
+            <li><span class="check">→</span><span><strong>Browserless<span class="api-tag api-paid">~$50/mo</span></strong> — JS-rendered DOM scrape for chatbots and ad pixels that don't appear in static HTML.</span></li>
+            <li><span class="check">→</span><span><strong>crt.sh<span class="api-tag api-free">free</span></strong> — subdomain enumeration → SaaS detection (yourcompany.atlassian.net, .zendesk.com). Strongest free Vendor ID signal.</span></li>
+            <li><span class="check">→</span><span><strong>GitHub Search × 6<span class="api-tag api-free">free</span></strong> — LLM SDK detection in public repos (openai, anthropic, langchain, llamaindex, google-generative-ai, aws-bedrock). Highest-value free signal for Token ID.</span></li>
+            <li><span class="check">→</span><span><strong>DNS-over-HTTPS × 3<span class="api-tag api-free">free</span></strong> — MX (Workspace / M365 detection), A (cloud-provider IP matching), CNAME (CDN / SaaS host). Foundational deterministic signals.</span></li>
+            <li><span class="check">→</span><span><strong>AWS / GCP IP ranges<span class="api-tag api-free">free</span></strong> — match resolved customer IPs against published prefix files. Confirms cloud-provider attribution.</span></li>
+            <li><span class="check">→</span><span><strong>Google Ads Transparency Center<span class="api-tag api-free">free*</span></strong> — verified-advertiser status, ad-format mix. Scrape-based; brittle to UI changes.</span></li>
+            <li><span class="check">→</span><span><strong>Meta Ad Library<span class="api-tag api-free">free*</span></strong> — active Meta ad count + creatives. App Token auth required; production may need scrape fallback.</span></li>
+            <li><span class="check">→</span><span><strong>TikTok Creative Center<span class="api-tag api-free">free*</span></strong> — TikTok top-ad presence by vertical. Scrape; absence ≠ no TikTok ads.</span></li>
+            <li><span class="check">→</span><span><strong>LinkedIn Ad Library<span class="api-tag api-free">free*</span></strong> — active LinkedIn ad creatives. Scrape; aggressive bot detection means residential proxy (~$50/mo) needed for production reliability.</span></li>
+            <li><span class="check">→</span><span><strong>SimilarWeb sales engagement<span class="api-tag api-tbd">starts now</span></strong> — 1–2 week lead time. Critical-path for Phase 2 production launch and the only source for Display / Programmatic spend signal.</span></li>
           </ul>
         </div>
 
@@ -1025,12 +1059,13 @@
         <div class="pt rep">
           <div class="pt-head">
             <span class="pt-tag">Reporting</span>
-            <span class="pt-title">Source receipts &amp; basic logging</span>
+            <span class="pt-title">Source receipts, confidence label, basic logging</span>
           </div>
-          <p class="pt-summary">User-facing reporting on what the agent is anchored on, plus the first internal logging so accuracy can be measured later.</p>
+          <p class="pt-summary">User-facing reporting on what the agent is anchored on, plus the first internal logging so accuracy can be measured. Confidence label uses marketing's signal-quality formula (weighted score from SimilarWeb + BuiltWith + Apollo + ad library returns).</p>
           <ul class="work-list">
             <li><span class="check">→</span><span><strong>Source receipt line per ID.</strong> "Based on N similar audited accounts." N pulled from internal data. The receipt is the visible reporting layer for the user.</span></li>
-            <li><span class="check">→</span><span><strong>Pre-signup estimate logging.</strong> Capture the estimate produced for every domain — vertical, size, range, source N. Foundation for Phase 2's estimate-vs-actual loop.</span></li>
+            <li><span class="check">→</span><span><strong>Confidence label per ID.</strong> High / Medium / Low calculated from signal coverage — 30 pts SimilarWeb, 25 pts BuiltWith, 20 pts Apollo, 10 pts ad library, 10 pts cloud match, 5 pts/ad pixel. Low-confidence cards suppress the dollar range and show "Connect for exact" instead.</span></li>
+            <li><span class="check">→</span><span><strong>Pre-signup estimate logging.</strong> Capture the estimate produced for every domain — vertical, size, range, source N, confidence. Foundation for Phase 2's estimate-vs-actual loop.</span></li>
             <li><span class="check">→</span><span><strong>Stack &amp; signal coverage flag.</strong> Which APIs returned data for this domain, which were null. Internal only — feeds debugging and Phase 3 prioritization.</span></li>
           </ul>
         </div>
@@ -1038,7 +1073,7 @@
 
       <div class="phase-outcome">
         <h6>What changes for the user</h6>
-        <p>The agent now shows what it detected before showing the number, the number is a range with credibility line below, and the language matches the rest of the site's positioning. Six new signal sources are working behind the scenes. Internally, every signup is now logged in a way that lets us measure accuracy in Phase 2.</p>
+        <p>The agent shows what it detected before showing the number, the number is a range with credibility line and confidence label below, and the language matches the rest of the site's positioning. 13 sources are working behind the scenes plus the cross-cutting Ad Platform Detection layer. SimilarWeb sales engagement runs in parallel. Internally, every signup is logged with confidence breakdown so accuracy is measurable from day one.</p>
       </div>
     </div>
   </section>
@@ -1053,17 +1088,19 @@
         <span class="phase-title">Refinement &amp; learning loop</span>
         <span class="phase-time p2">~ May 12 target</span>
       </div>
-      <p class="phase-thesis">Phase 1 establishes the foundation. Phase 2 makes it learn. The accuracy track adds one direct ad-spend signal — likely SpyFu, marketing's pick. The behaviour track ships refinement chips and the conversational rules for handling user input. The reporting track lights up the dashboard that compares pre-signup estimates against post-connect actuals.</p>
+      <p class="phase-thesis">Phase 1 establishes the foundation. Phase 2 makes it learn. The accuracy track adds SimilarWeb — marketing's keystone pick — which unlocks credible Display / Programmatic spend estimation and sharpens Search and Social. The behaviour track ships refinement chips and the conversational rules for handling user input. The reporting track lights up the dashboard that compares pre-signup estimates against post-connect actuals.</p>
 
       <div class="phase-tracks">
         <div class="pt acc">
           <div class="pt-head">
             <span class="pt-tag">Accuracy</span>
-            <span class="pt-title">Direct ad-spend signal</span>
+            <span class="pt-title">SimilarWeb integration</span>
           </div>
-          <p class="pt-summary">One more API on top of Phase 1's six. Working candidate is SpyFu — direct dollar reading on Google Ads spend for US/UK domains. Marketing's coverage check decides whether it ships or gets swapped.</p>
+          <p class="pt-summary">SimilarWeb is the keystone signal for Ad ID accuracy and the only source for Display / Programmatic spend. Marketing flagged this as the critical-path Phase 2 item — sales engagement starts in Phase 1 to land contract in time for Phase 2 launch.</p>
           <ul class="work-list">
-            <li><span class="check">→</span><span><strong>SpyFu API<span class="api-tag api-tbd">pending pick</span></strong> — direct estimated Google Ads monthly spend, top keywords, history. Coverage US/UK only and Google-only. Use as ADID enhancer, not primary.</span></li>
+            <li><span class="check">→</span><span><strong>SimilarWeb API<span class="api-tag api-paid">$199–500+/mo</span></strong> — total traffic, paid-channel share (Search / Social / Display), audience overlap. Sales-gated; Starter list price $199/mo, production tier ~$500/mo at v1 volume.</span></li>
+            <li><span class="check">→</span><span><strong>Wire SimilarWeb into spend formulas.</strong> Search spend (Path B), Social spend per platform, and Display spend all flow from SimilarWeb's traffic-source share data per marketing's formulas.</span></li>
+            <li><span class="check">→</span><span><strong>Accuracy lift telemetry.</strong> Pre-SimilarWeb baseline established in Phase 1 logging. Post-SimilarWeb estimates compared against same domains to quantify the lift.</span></li>
           </ul>
         </div>
 
@@ -1097,7 +1134,7 @@
 
       <div class="phase-outcome">
         <h6>What changes for the user</h6>
-        <p>Users can now sharpen the estimate with one-tap chips and watch the number recalibrate live. Behind the scenes, accuracy is measurable for the first time — every signup contributes a datapoint. ADID gets a direct dollar reading on US/UK domains where the Phase 2 API has coverage.</p>
+        <p>SimilarWeb's traffic-share data unlocks credible Display / Programmatic spend estimation for the first time, and sharpens Search and Social via the dual-path formula (SimilarWeb + SEMrush keyword data when available). Users can now sharpen the estimate with one-tap chips and watch the number recalibrate live. Behind the scenes, accuracy is measurable — every signup contributes a datapoint to the closed loop.</p>
       </div>
     </div>
   </section>
@@ -1177,10 +1214,18 @@
         <tr>
           <td class="priority"><span class="pri-pill pri-3">P3</span></td>
           <td><span class="track-pill acc">Accuracy</span></td>
-          <td><strong>SimilarWeb (full)</strong></td>
+          <td><strong>SEMrush API (conditional)</strong></td>
+          <td class="dim">~1 week</td>
+          <td class="dim">$140/mo</td>
+          <td class="dim">Paid keyword spend (Google + Bing). Only fund if SimilarWeb's traffic-source share doesn't carry Search spend accuracy on its own. Marketing recommended deferring this decision until SimilarWeb is in place.</td>
+        </tr>
+        <tr>
+          <td class="priority"><span class="pri-pill pri-3">P3</span></td>
+          <td><span class="track-pill acc">Accuracy</span></td>
+          <td><strong>Sensor Tower / data.ai</strong></td>
           <td class="dim">~2 weeks (procurement)</td>
-          <td class="dim">$14k–90k+/yr</td>
-          <td class="dim">Only if SEMrush coverage testing reveals a meaningful gap. Procurement is the long pole. Don't sign without proof of need.</td>
+          <td class="dim">enterprise $$$</td>
+          <td class="dim">Mobile / AppLovin spend coverage. Deferred per marketing — only revisit if customer demand for mobile-install advertiser audits emerges.</td>
         </tr>
         <tr>
           <td class="priority"><span class="pri-pill pri-3">P3</span></td>
@@ -1200,25 +1245,37 @@
   </section>
 
   <section id="decisions">
-    <h2>6 · Open questions — pending marketing recommendation</h2>
-    <p class="section-sub">Marketing (Jugas + Chris) is researching API alternatives and quality-controlling data inputs. Their prioritized Phase 1 + Phase 2 recommendation is due Thursday. The questions below are what we need from that work before Phase 1 commits.</p>
+    <h2>6 · Open questions — post-recommendation</h2>
+    <p class="section-sub">Marketing's recommendation has landed. The questions below are what's left to decide based on what they raised, plus pre-launch product calls flagged in their report.</p>
 
     <div class="decisions">
-      <h4>For Thursday's marketing recommendation</h4>
+      <h4>Resolved by marketing's recommendation</h4>
       <ul>
-        <li><strong>Final API picks for Phase 1.</strong> Six APIs go in by ~ May 6. The four free sources and the two paid candidates (Apollo + SEMrush Trends Basic) are working assumptions — marketing's research may surface stronger alternatives. Want a pick by Thursday so engineering can kick off Friday.</li>
-        <li><strong>Apollo vs PDL.</strong> Subscription vs pay-per-lookup. Marketing's data quality testing — hit rate and field completeness on our typical pre-signup domain mix — should pick the winner.</li>
-        <li><strong>SEMrush coverage check.</strong> Confirm via manual data pulls that coverage holds across our target verticals, not just canonical examples. If thin in mid-market DTC or B2B SaaS, slip to Phase 2 and move SpyFu into Phase 1 instead.</li>
-        <li><strong>SpyFu coverage check.</strong> US/UK only and Google-only. Confirm what % of pre-signup traffic falls within coverage. Below 50% means it's not worth the integration overhead.</li>
-        <li><strong>Free signal scope.</strong> Carrier rate cards and cloud pricing APIs are stretch items if integration time is tighter than expected. Marketing's manual-pull testing should validate that the free-source data quality justifies the engineering work.</li>
-        <li><strong>Estimated integration time per API.</strong> Jugas's Postman testing should produce per-API time estimates. Phase 1 fits if all six are sub-1-day per integration. If any come back as multi-day, we re-shape Phase 1 around the cheapest-to-integrate set.</li>
-        <li><strong>Look-and-feel for source receipts.</strong> Chris owns marketing look/feel. The "based on N similar accounts" line is the visible reporting surface — needs marketing sign-off on phrasing before it ships.</li>
+        <li><strong>Apollo wins on firmographics.</strong> ✓ $99/mo, lowest tier with API. PDL deferred.</li>
+        <li><strong>SimilarWeb is the keystone Ad ID source, not SEMrush.</strong> ✓ Sales engagement starts in Phase 1; SEMrush moved to conditional Phase 3.</li>
+        <li><strong>Phase 1 source scope.</strong> ✓ 13 sources confirmed, plus the cross-cutting Ad Platform Detection layer at $0 marginal cost.</li>
+        <li><strong>Source receipt phrasing.</strong> ✓ Marketing has signed off on "Based on N similar accounts" plus the High / Medium / Low confidence label backed by their signal-quality formula.</li>
+      </ul>
+    </div>
+
+    <div class="decisions">
+      <h4>Still open</h4>
+      <ul>
+        <li><strong>Display / Programmatic UI granularity.</strong> Marketing recommends consolidating DV360 / TTD / AppLovin / generic display into a single "Programmatic / Display" line item rather than splitting per platform (±60–100% spend error makes per-platform breakdown unreliable). Confirm this is acceptable before Phase 2 ships.</li>
+        <li><strong>Server-side conversion API blind spot.</strong> Companies running Meta CAPI / TikTok Events API / Google Enhanced Conversions without browser pixels won't be detected. Decide whether the agent surfaces "limited platform visibility" copy or stays silent on this gap.</li>
+        <li><strong>Ad ID display granularity.</strong> Three buckets (Search / Social / Display) recommended for v1, with platform-level breakdown reserved for post-connect audit. Confirm.</li>
+        <li><strong>Token ID empty state.</strong> "No LLM signals found — connect to scan all major providers." Confirm copy.</li>
+        <li><strong>Mobile layout.</strong> Three-card grid stacks vertically under 640px, sticky-bottom CTA. Design review.</li>
+        <li><strong>Rate-limiting.</strong> Marketing recommends 10 estimates/hour per IP plus Cloudflare Turnstile to prevent scraper abuse. Confirm and assign owner.</li>
+        <li><strong>SimilarWeb contract path.</strong> 1–2 week sales lead time. Owner for procurement and target close date for Phase 2 launch.</li>
+        <li><strong>LinkedIn Ad Library production scrape.</strong> Marketing recommends residential proxy (~$50/mo extra) for production reliability. Approve or accept the brittleness.</li>
+        <li><strong>Day 5 calibration discipline.</strong> Marketing recommends tuning all WASTE_RATE_* and ratio constants against ground-truth client data. Owner and target dataset size.</li>
       </ul>
     </div>
 
     <div class="callout">
-      <h4>Decision path</h4>
-      <p>Marketing recommendation Thursday → eng kickoff Friday → Phase 1 ships ~ May 6. If any API gets demoted by Thursday's review, slot in the next-best alternative from the strategy doc rather than reducing Phase 1 scope. Six API integrations is the value-show story; trading one for another preserves it.</p>
+      <h4>The risk to manage</h4>
+      <p>SimilarWeb sales lead time is the critical-path risk for Phase 2. If contract slips beyond ~ May 12, Phase 2 launches without Display / Programmatic spend coverage and the headline range is materially less complete. Mitigation: start sales engagement on the same day Phase 1 work kicks off, and set a hard checkpoint at end of week 1 to evaluate whether to push Phase 2 a few days or ship without SimilarWeb and add it as a hot-fix.</p>
     </div>
   </section>
 
@@ -1248,12 +1305,14 @@
     <a href="#state-3">4 · States — disagreement</a>
     <a href="#state-4">5 · States — multi-ID</a>
     <a href="#state-5">6 · States — handoff</a>
-    <a href="#rules">7 · Behaviour rules</a>
+    <a href="#state-6">7 · States — Token ID</a>
+    <a href="#state-7">8 · States — confidence</a>
+    <a href="#rules">9 · Behaviour rules</a>
   </nav>
 
   <section id="proto-section">
     <h2>1 · Live prototype</h2>
-    <p class="section-sub">Tap any chip to see the agent's number recalibrate live. Tap the highest spend chip while keeping team size small to trigger the big-disagreement soft surface. Tap "Show me Seat ID instead" to see the lateral expansion behaviour.</p>
+    <p class="section-sub">Tap any chip to see the agent's number recalibrate live, the source line update with the new cohort, and the confidence label adjust based on signal coverage. Tap the highest spend chip while keeping team size small to trigger the big-disagreement soft surface — confidence drops to LOW. Tap "Show me Seat ID instead" to see the lateral expansion behaviour.</p>
 
     <div class="live-banner">
       <span class="live-dot"></span>
@@ -1275,7 +1334,12 @@
       <div class="agent-msg" id="agentMsg">
         Looks like you run a DTC apparel store. Stores at your size on Shopify with Google Ads + Meta typically run <span class="number" id="spendRange">$20K–$40K/month</span> across these platforms, and our audits typically recover <span class="number" id="recoveryRange">$3K–$8K/month</span> in waste.
       </div>
-      <span class="source" id="sourceLine">Based on patterns across 47 similar audited accounts</span>
+      <span class="source" id="sourceLine">Based on patterns across 47 similar audited accounts<span class="conf-pill conf-high" id="confPill">HIGH confidence</span></span>
+
+      <div class="token-card-note">
+        <strong>Token ID</strong>
+        <span>— LLM and AI spend isn't credibly estimable from public data. The Token ID card always shows "Exact in 60 sec via admin key" instead of a range.</span>
+      </div>
 
       <div class="soft-alert" id="softAlert">
         That's significantly above what we usually see for your stack — connecting your account will give you the exact number.
@@ -1516,8 +1580,76 @@
     </div>
   </section>
 
+  <section id="state-6">
+    <h2>7 · State 6 — Token ID special handling</h2>
+    <p class="section-sub">Token ID is the only category that never gets summed into the headline range. AI and LLM spend can't be credibly estimated from public data — so the card always offers admin-key validation instead.</p>
+
+    <div class="state">
+      <div class="state-head">
+        <span class="state-num">6</span>
+        <span class="state-title">Token ID never estimated</span>
+        <span class="state-trigger">trigger: always</span>
+      </div>
+      <div class="state-grid">
+        <div class="state-col">
+          <h6>What the user sees</h6>
+          <div class="ex">
+            "Token ID — Exact in 60 sec via admin key.<br><br>
+            Connect your OpenAI / Anthropic admin key to scan all major LLM providers and surface unused capacity, idle batch jobs, and unclaimed credits."<br><br>
+            (No dollar range. No "based on N accounts." No confidence label.)
+          </div>
+        </div>
+        <div class="state-col">
+          <h6>Behaviour rules</h6>
+          <ul>
+            <li><strong>Never summed into headline.</strong> Token ID's projected recoverable amount is always excluded from the total. Marketing's recommendation: public-data estimation isn't credible enough.</li>
+            <li><strong>Always offers admin-key path.</strong> The card's CTA is always "Connect admin key" — never "see your estimate."</li>
+            <li><strong>GitHub Search detection still runs.</strong> The presence boolean ("uses OpenAI: yes") still surfaces — just not a dollar amount.</li>
+            <li><strong>Empty state copy.</strong> When no LLM signals are detected: "No LLM signals found — connect to scan all major providers."</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="state-7">
+    <h2>8 · State 7 — confidence label</h2>
+    <p class="section-sub">Per marketing's signal-quality formula, every category gets a High / Medium / Low label based on which signals returned data. Low-confidence categories suppress the dollar range entirely.</p>
+
+    <div class="state">
+      <div class="state-head">
+        <span class="state-num">7</span>
+        <span class="state-title">Confidence label per ID</span>
+        <span class="state-trigger">trigger: signal coverage check</span>
+      </div>
+      <div class="state-grid">
+        <div class="state-col">
+          <h6>What the user sees</h6>
+          <div class="ex">
+            "Based on patterns across 47 similar audited accounts<br>
+            <span class="conf-pill conf-high">HIGH confidence</span>"<br><br>
+            For LOW confidence: "Connect for exact — limited data on similar companies in your space."
+          </div>
+        </div>
+        <div class="state-col">
+          <h6>Scoring formula (marketing's spec)</h6>
+          <ul>
+            <li><strong>+30 pts</strong> if SimilarWeb returned full traffic data (visits + sources)</li>
+            <li><strong>+25 pts</strong> if BuiltWith returned 10+ technologies</li>
+            <li><strong>+20 pts</strong> if Apollo returned revenue and headcount</li>
+            <li><strong>+10 pts</strong> if at least one ad library returned active ads</li>
+            <li><strong>+10 pts</strong> if cloud provider detected via IP match</li>
+            <li><strong>+5 pts</strong> per detected ad pixel (capped at +20)</li>
+            <li><strong>HIGH</strong> ≥ 70 · <strong>MEDIUM</strong> 40–69 · <strong>LOW</strong> &lt; 40</li>
+            <li><strong>Low-confidence ranges suppressed.</strong> "Connect for exact" replaces the dollar amount — never show a number we can't stand behind.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section id="rules">
-    <h2>7 · Behaviour rules — global</h2>
+    <h2>9 · Behaviour rules — global</h2>
     <p class="section-sub">Cross-state rules that apply across the whole conversational flow.</p>
 
     <div class="rules">
@@ -1663,6 +1795,17 @@
     return (userIdx - inferredIdx >= 2) && teamIdx <= 1;
   }
 
+  // Confidence label calculation per marketing's signal-quality formula
+  // (simplified for prototype demo — real implementation reads from backend signal coverage)
+  function computeConfidence() {
+    const cohortN = cohortSizes[protoState.spend];
+    const isBigDisagreement = checkBigDisagreement();
+    if (isBigDisagreement) return 'low';
+    if (cohortN >= 30) return 'high';
+    if (cohortN >= 15) return 'med';
+    return 'low';
+  }
+
   function updateProtoUI() {
     const map = protoSpendMap[protoState.spend];
     if (!map) return;
@@ -1687,11 +1830,18 @@
       expandEl.style.opacity = '1';
 
       const cohortN = cohortSizes[protoState.spend];
-      if (protoState.spend === '5to25') {
-        sourceEl.textContent = 'Based on patterns across 47 similar audited accounts';
-      } else {
-        sourceEl.textContent = 'Based on ' + cohortN + ' similar accounts at your reported scale';
-      }
+      const sourceText = (protoState.spend === '5to25')
+        ? 'Based on patterns across 47 similar audited accounts'
+        : 'Based on ' + cohortN + ' similar accounts at your reported scale';
+
+      const conf = computeConfidence();
+      const confLabel = conf === 'high' ? 'HIGH confidence'
+                      : conf === 'med'  ? 'MEDIUM confidence'
+                      :                   'LOW confidence';
+
+      // Rebuild source line with the pill preserved
+      sourceEl.innerHTML = sourceText +
+        '<span class="conf-pill conf-' + conf + '" id="confPill">' + confLabel + '</span>';
     }, 200);
 
     if (checkBigDisagreement()) {
