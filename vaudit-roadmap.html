@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vaudit · Roadmap & phases</title>
+<style>
+  :root {
+    --orange: #FE602C;
+    --orange-soft: #FFF1EB;
+    --orange-line: #FFD4BF;
+    --orange-deep: #C44A1F;
+
+    --bg: #FAFAF7;
+    --surface: #FFFFFF;
+    --surface-2: #F5F4EF;
+    --surface-3: #EDEBE3;
+    --line: #E8E6DF;
+    --line-2: #D4D2C9;
+
+    --text: #1B1B1A;
+    --text-mute: #5F5E5A;
+    --text-dim: #8B8A82;
+
+    --teal: #0F6E56;
+    --teal-soft: #E1F5EE;
+    --amber: #854F0B;
+    --amber-soft: #FAEEDA;
+    --red: #993C1D;
+    --red-soft: #FAECE7;
+    --purple: #534AB7;
+    --purple-soft: #EEEDFE;
+    --pink: #993556;
+    --pink-soft: #FBEAF0;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg); color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    font-size: 15px; line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page { max-width: 1080px; margin: 0 auto; padding: 64px 32px 96px; }
+
+  .brand { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+  .brand-mark { width: 28px; height: 28px; background: var(--orange); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px; color: #fff; }
+  .brand-name { font-weight: 600; letter-spacing: 0.02em; color: var(--text); }
+  h1 { font-size: 36px; line-height: 1.2; margin: 16px 0 8px; font-weight: 600; letter-spacing: -0.01em; color: var(--text); }
+  .sub { color: var(--text-mute); font-size: 16px; margin: 0 0 8px; }
+  .meta { color: var(--text-dim); font-size: 13px; margin: 0 0 48px; }
+
+  .toc { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 48px; padding: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
+  .toc a { color: var(--text-mute); text-decoration: none; padding: 6px 12px; border-radius: 6px; font-size: 13px; border: 1px solid var(--line); transition: all 0.15s; background: var(--surface); }
+  .toc a:hover { background: var(--orange-soft); color: var(--orange); border-color: var(--orange-line); }
+
+  h2 { font-size: 24px; margin: 64px 0 8px; font-weight: 600; letter-spacing: -0.01em; padding-top: 24px; border-top: 1px solid var(--line); color: var(--text); }
+  h2:first-of-type { border-top: none; padding-top: 0; }
+  .section-sub { color: var(--text-mute); margin: 0 0 32px; }
+
+  h3 { font-size: 17px; margin: 32px 0 12px; font-weight: 600; color: var(--text); }
+  h4 { font-size: 14px; margin: 20px 0 8px; font-weight: 600; color: var(--text-mute); text-transform: uppercase; letter-spacing: 0.06em; }
+  p { margin: 0 0 16px; color: var(--text); }
+  p.dim { color: var(--text-mute); }
+  strong { color: var(--text); font-weight: 600; }
+  ol, ul { color: var(--text); padding-left: 24px; }
+  ol li, ul li { margin-bottom: 6px; }
+
+  /* Proposal note */
+  .proposal-note { background: var(--amber-soft); color: var(--amber); border: 1px solid #E8C886; border-radius: 8px; padding: 12px 16px; font-size: 13px; margin-bottom: 32px; }
+  .proposal-note strong { color: var(--amber); }
+
+  /* Timeline strip */
+  .timeline { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 24px 0 32px; }
+  .tl-cell { padding: 16px 18px; border-radius: 10px; background: var(--surface); border: 1px solid var(--line); }
+  .tl-cell.p1 { border-color: #5DCAA5; }
+  .tl-cell.p2 { border-color: #1D9E75; }
+  .tl-cell.p3 { border-color: var(--orange); }
+  .tl-date { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px; }
+  .tl-cell.p1 .tl-date { color: #0F6E56; }
+  .tl-cell.p2 .tl-date { color: #04342C; }
+  .tl-cell.p3 .tl-date { color: var(--orange-deep); }
+  .tl-title { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .tl-thesis { font-size: 12px; color: var(--text-mute); line-height: 1.5; margin: 0; }
+
+  /* Track matrix */
+  .matrix { display: grid; grid-template-columns: 140px repeat(3, 1fr); gap: 8px; margin: 24px 0 32px; }
+  .matrix-head { padding: 10px 12px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+  .matrix-head h5 { margin: 0 0 2px; font-size: 13px; font-weight: 600; color: var(--text); }
+  .matrix-head p { margin: 0; font-size: 11px; color: var(--text-mute); }
+  .matrix-row { display: contents; }
+  .matrix-label { display: flex; flex-direction: column; justify-content: center; padding: 12px 14px; font-size: 13px; }
+  .matrix-label .lt { font-weight: 600; color: var(--text); }
+  .matrix-label .ls { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
+  .mcell { padding: 12px 14px; border-radius: 8px; font-size: 12px; line-height: 1.5; min-height: 110px; display: flex; flex-direction: column; gap: 4px; border: 1px solid transparent; }
+  .mcell .ct { font-weight: 600; font-size: 12px; }
+  .mcell .cl { font-size: 11px; line-height: 1.5; }
+  .mcell ul { margin: 4px 0 0; padding-left: 16px; font-size: 11px; line-height: 1.45; }
+  .mcell li { margin-bottom: 2px; }
+
+  .acc-1 { background: #9FE1CB; color: #04342C; border-color: #7BD3B5; }
+  .acc-2 { background: #5DCAA5; color: #04342C; border-color: #3FB888; }
+  .acc-3 { background: #1D9E75; color: #FFFFFF; border-color: #137456; }
+  .acc-3 ul, .acc-3 .cl { color: #E1F5EE; }
+  .ag-1 { background: var(--purple-soft); color: #26215C; border-color: #D9D5F5; }
+  .ag-2 { background: #CECBF6; color: #26215C; border-color: #B0ACEA; }
+  .ag-3 { background: #AFA9EC; color: #26215C; border-color: #8C84DD; }
+  .rep-1 { background: var(--pink-soft); color: #4B1528; border-color: #ECC8D5; }
+  .rep-2 { background: #F4C0D1; color: #4B1528; border-color: #E59CB7; }
+  .rep-3 { background: #ED93B1; color: #4B1528; border-color: #DC6F95; }
+
+  /* Legend */
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 16px; padding: 12px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
+  .legend-item { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-mute); }
+  .legend-sw { width: 10px; height: 10px; border-radius: 3px; }
+
+  /* Phase card */
+  .phase { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 24px 28px; margin-bottom: 20px; position: relative; overflow: hidden; }
+  .phase::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--line); }
+  .phase.p1::before { background: #5DCAA5; }
+  .phase.p2::before { background: #1D9E75; }
+  .phase.p3::before { background: var(--orange); }
+
+  .phase-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px; flex-wrap: wrap; }
+  .phase-num { font-size: 11px; font-weight: 700; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase; }
+  .phase-title { font-size: 20px; font-weight: 600; color: var(--text); }
+  .phase-time { font-size: 12px; padding: 3px 10px; border-radius: 6px; font-weight: 500; border: 1px solid; }
+  .phase-time.p1 { background: var(--teal-soft); color: var(--teal); border-color: #B0DCC8; }
+  .phase-time.p2 { background: #C8EFE0; color: var(--teal); border-color: #93D9BD; }
+  .phase-time.p3 { background: var(--orange-soft); color: var(--orange-deep); border-color: var(--orange-line); }
+  .phase-thesis { color: var(--text-mute); font-size: 14px; margin: 0 0 20px; line-height: 1.6; }
+
+  .phase-tracks { display: flex; flex-direction: column; gap: 16px; margin-top: 20px; }
+  .pt { background: var(--surface-2); border-radius: 10px; padding: 16px 18px; border-left: 3px solid var(--line); }
+  .pt.acc { border-left-color: #1D9E75; }
+  .pt.ag { border-left-color: var(--purple); }
+  .pt.rep { border-left-color: var(--pink); }
+  .pt-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+  .pt-tag { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; }
+  .pt.acc .pt-tag { background: var(--teal-soft); color: var(--teal); }
+  .pt.ag .pt-tag { background: var(--purple-soft); color: var(--purple); }
+  .pt.rep .pt-tag { background: var(--pink-soft); color: var(--pink); }
+  .pt-title { font-size: 14px; font-weight: 600; color: var(--text); }
+  .pt-summary { font-size: 12px; color: var(--text-mute); margin: 0 0 10px; line-height: 1.5; }
+
+  .work-list { list-style: none; padding: 0; margin: 0; }
+  .work-list li { padding: 8px 0; border-bottom: 1px dashed var(--line); font-size: 13px; line-height: 1.5; color: var(--text); display: grid; grid-template-columns: 18px 1fr; gap: 10px; align-items: start; }
+  .work-list li:last-child { border-bottom: none; }
+  .work-list .check { color: var(--orange); font-weight: 700; font-size: 13px; line-height: 1.5; }
+  .work-list code { background: var(--surface); padding: 1px 5px; border-radius: 3px; font-size: 11px; color: var(--orange); font-family: 'SF Mono', Menlo, monospace; }
+  .api-tag { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 4px; margin-left: 6px; font-weight: 600; letter-spacing: 0.02em; vertical-align: middle; }
+  .api-free { background: var(--teal-soft); color: var(--teal); }
+  .api-paid { background: var(--amber-soft); color: var(--amber); }
+  .api-tbd { background: var(--surface); color: var(--text-mute); border: 1px dashed var(--line-2); }
+
+  .phase-outcome { margin-top: 20px; padding: 14px 16px; background: var(--orange-soft); border-radius: 8px; border-left: 3px solid var(--orange); }
+  .phase-outcome h6 { margin: 0 0 4px; font-size: 11px; color: var(--orange-deep); }
+  .phase-outcome p { margin: 0; font-size: 13px; color: var(--text); line-height: 1.5; }
+
+  /* Backlog table */
+  table { width: 100%; border-collapse: collapse; margin: 16px 0 24px; font-size: 13px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  th { text-align: left; padding: 10px 12px; background: var(--surface-2); color: var(--text-mute); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; border-bottom: 1px solid var(--line); }
+  td { padding: 12px; border-bottom: 1px solid var(--line); color: var(--text); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  td.dim { color: var(--text-mute); }
+  td.priority { font-weight: 600; }
+  .pri-pill { display: inline-block; font-size: 10px; padding: 3px 8px; border-radius: 4px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+  .pri-1 { background: var(--red-soft); color: var(--red); }
+  .pri-2 { background: var(--amber-soft); color: var(--amber); }
+  .pri-3 { background: var(--surface-2); color: var(--text-mute); }
+  .track-pill { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 4px; font-weight: 600; letter-spacing: 0.02em; }
+  .track-pill.acc { background: var(--teal-soft); color: var(--teal); }
+  .track-pill.ag { background: var(--purple-soft); color: var(--purple); }
+  .track-pill.rep { background: var(--pink-soft); color: var(--pink); }
+
+  .callout { background: var(--orange-soft); border-left: 3px solid var(--orange); padding: 16px 20px; border-radius: 0 8px 8px 0; margin: 24px 0; }
+  .callout h4 { margin-top: 0; color: var(--orange-deep); }
+  .callout p:last-child { margin-bottom: 0; }
+
+  .decisions { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px 24px; margin: 16px 0 32px; }
+  .decisions h4 { margin-top: 0; color: var(--text); text-transform: none; letter-spacing: normal; font-size: 15px; }
+  .decisions ul { margin: 0; padding-left: 20px; }
+  .decisions li { color: var(--text-mute); font-size: 13px; margin-bottom: 8px; line-height: 1.5; }
+  .decisions li strong { color: var(--text); }
+
+  footer { margin-top: 96px; padding-top: 32px; border-top: 1px solid var(--line); color: var(--text-dim); font-size: 12px; text-align: center; }
+
+  @media (max-width: 880px) {
+    .matrix { grid-template-columns: 100px repeat(3, 1fr); }
+    .matrix-label { padding: 10px; }
+    .mcell { padding: 10px; min-height: 90px; }
+    .mcell .ct, .mcell .cl, .mcell ul { font-size: 10.5px; }
+  }
+  @media (max-width: 720px) {
+    .page { padding: 32px 16px 64px; }
+    h1 { font-size: 28px; }
+    .matrix { display: none; }
+    .timeline { grid-template-columns: 1fr; }
+    .mobile-fallback { display: block !important; }
+  }
+  .mobile-fallback { display: none; padding: 12px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; color: var(--text-mute); font-size: 13px; margin: 16px 0; }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <header>
+    <div class="brand">
+      <div class="brand-mark">V</div>
+      <div class="brand-name">Vaudit</div>
+    </div>
+    <h1>Roadmap &amp; phases</h1>
+    <p class="sub">Three-phase plan across three workstreams: accuracy, agent behaviour, reporting.</p>
+    <p class="meta">Pre-signup agent · Working draft · Companion to estimation strategy</p>
+  </header>
+
+  <div class="proposal-note">
+    <strong>Proposal — dates and API picks pending.</strong> The timeline below is a working proposal. Specific APIs in the accuracy track depend on marketing's recommendation due Thursday (Jugas's Postman pulls + Chris's prioritization). Phase boundaries can shift.
+  </div>
+
+  <nav class="toc">
+    <a href="#timeline">1 · Timeline</a>
+    <a href="#matrix">2 · Track matrix</a>
+    <a href="#phase-1">3 · Phase 1</a>
+    <a href="#phase-2">4 · Phase 2</a>
+    <a href="#phase-3">5 · Phase 3</a>
+    <a href="#decisions">6 · Open questions</a>
+  </nav>
+
+  <section id="timeline">
+    <h2>1 · Timeline at a glance</h2>
+    <p class="section-sub">Three phases, soft dates. Phase 1 lands quickly to show value. Phase 2 layers in refinement and learning. Phase 3 is a prioritized backlog sequenced by what Phase 2 reveals.</p>
+
+    <div class="timeline">
+      <div class="tl-cell p1">
+        <div class="tl-date">Phase 1 · ~ May 6 target</div>
+        <div class="tl-title">Foundation &amp; first signals</div>
+        <p class="tl-thesis">Six new signal APIs, sizing readout surfaced, validation language live, basic accuracy logging in place.</p>
+      </div>
+      <div class="tl-cell p2">
+        <div class="tl-date">Phase 2 · ~ May 12 target</div>
+        <div class="tl-title">Refinement &amp; learning loop</div>
+        <p class="tl-thesis">One more API, refinement chips, conversational override handling, telemetry dashboards.</p>
+      </div>
+      <div class="tl-cell p3">
+        <div class="tl-date">Phase 3 · backlog</div>
+        <div class="tl-title">Compounding accuracy</div>
+        <p class="tl-thesis">Internal benchmark, OAuth pilot, multi-ID conversation, per-vertical reporting.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="matrix">
+    <h2>2 · Track matrix</h2>
+    <p class="section-sub">Three workstreams running across all three phases. Each phase ships a slice of every track — APIs alone aren't enough; the agent's voice and what we measure have to evolve in step.</p>
+
+    <div class="legend">
+      <span class="legend-item"><span class="legend-sw" style="background: #1D9E75;"></span>Accuracy — APIs &amp; signal sources</span>
+      <span class="legend-item"><span class="legend-sw" style="background: var(--purple);"></span>Agent behaviour — conversational</span>
+      <span class="legend-item"><span class="legend-sw" style="background: var(--pink);"></span>Reporting — what gets measured &amp; surfaced</span>
+    </div>
+
+    <div class="matrix">
+      <div></div>
+      <div class="matrix-head">
+        <h5>Phase 1</h5>
+        <p>Foundation &amp; first signals</p>
+      </div>
+      <div class="matrix-head">
+        <h5>Phase 2</h5>
+        <p>Refinement &amp; learning</p>
+      </div>
+      <div class="matrix-head">
+        <h5>Phase 3</h5>
+        <p>Compounding accuracy</p>
+      </div>
+
+      <div class="matrix-row">
+        <div class="matrix-label"><span class="lt">Accuracy</span><span class="ls">APIs &amp; signals</span></div>
+        <div class="mcell acc-1">
+          <span class="ct">Six signal APIs added</span>
+          <span class="cl">Free public + first paid integrations. Pending marketing pick.</span>
+        </div>
+        <div class="mcell acc-2">
+          <span class="ct">+ One more API</span>
+          <span class="cl">Direct ad-spend signal layered onto Phase 1 baseline.</span>
+        </div>
+        <div class="mcell acc-3">
+          <span class="ct">Internal benchmark + premium</span>
+          <span class="cl">Vaudit's audited spend curves. SimilarWeb only if needed.</span>
+        </div>
+      </div>
+
+      <div class="matrix-row">
+        <div class="matrix-label"><span class="lt">Agent behaviour</span><span class="ls">conversational</span></div>
+        <div class="mcell ag-1">
+          <span class="ct">Validation language live</span>
+          <span class="cl">No more "estimate." Sizing readout surfaced before pitch.</span>
+        </div>
+        <div class="mcell ag-2">
+          <span class="ct">Refinement &amp; override</span>
+          <span class="cl">Chips, live recalibration, big-disagreement soft surface.</span>
+        </div>
+        <div class="mcell ag-3">
+          <span class="ct">Multi-ID conversation</span>
+          <span class="cl">Top-opportunity prompt, lateral choices, post-connect expansion.</span>
+        </div>
+      </div>
+
+      <div class="matrix-row">
+        <div class="matrix-label"><span class="lt">Reporting</span><span class="ls">measure &amp; surface</span></div>
+        <div class="mcell rep-1">
+          <span class="ct">Source receipts shown</span>
+          <span class="cl">"Based on N similar accounts" line. Basic estimate logging.</span>
+        </div>
+        <div class="mcell rep-2">
+          <span class="ct">Estimate-vs-actual dashboard</span>
+          <span class="cl">First closed loop. Cohort-aware receipt updates.</span>
+        </div>
+        <div class="mcell rep-3">
+          <span class="ct">Per-vertical accuracy</span>
+          <span class="cl">Quarterly recalibration. Per-domain confidence cache.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-fallback">Track matrix above is best viewed on a wider screen — see phase cards below for the full breakdown.</div>
+  </section>
+
+  <section id="phase-1">
+    <h2>3 · Phase 1 — foundation &amp; first signals</h2>
+    <p class="section-sub">Bring in the first wave of APIs, surface what the agent already detects today, and start logging what the agent is actually saying so accuracy becomes measurable.</p>
+
+    <div class="phase p1">
+      <div class="phase-head">
+        <span class="phase-num">Phase 1</span>
+        <span class="phase-title">Foundation &amp; first signals</span>
+        <span class="phase-time p1">~ May 6 target</span>
+      </div>
+      <p class="phase-thesis">Three slices ship together. The accuracy track adds six signal APIs (specific picks pending marketing recommendation). The behaviour track strips the "estimate" language and surfaces the sizing detection. The reporting track adds the source receipt line so users can see what the agent is anchored on, and starts logging estimates so we have the data to learn from.</p>
+
+      <div class="phase-tracks">
+        <div class="pt acc">
+          <div class="pt-head">
+            <span class="pt-tag">Accuracy</span>
+            <span class="pt-title">Six signal APIs integrated</span>
+          </div>
+          <p class="pt-summary">Specific picks pending Thursday's marketing review. Working assumption is four free public sources + two self-serve paid sources, with the strongest candidates per category listed below.</p>
+          <ul class="work-list">
+            <li><span class="check">→</span><span><strong>Google Ads Transparency Center<span class="api-tag api-free">free</span></strong> — confirms domain is actively running Google Ads. Binary gate for ADID.</span></li>
+            <li><span class="check">→</span><span><strong>Meta Ad Library<span class="api-tag api-free">free</span></strong> — confirms Meta advertising activity. Same gating role for Meta spend in ADID.</span></li>
+            <li><span class="check">→</span><span><strong>Carrier rate cards<span class="api-tag api-free">free</span></strong> — UPS / FedEx / DHL public rates. Wired into SHIPID baseline.</span></li>
+            <li><span class="check">→</span><span><strong>Cloud pricing APIs<span class="api-tag api-free">free</span></strong> — AWS / GCP / Azure unit pricing. Wired into KLOUDID.</span></li>
+            <li><span class="check">→</span><span><strong>Firmographics provider<span class="api-tag api-tbd">pending pick</span></strong> — Apollo or PDL. Headcount, revenue band, vertical confirmation. Marketing data quality test will pick the winner.</span></li>
+            <li><span class="check">→</span><span><strong>Traffic baseline provider<span class="api-tag api-tbd">pending pick</span></strong> — SEMrush Trends Basic is the lead candidate. Marketing's coverage testing across our verticals decides.</span></li>
+          </ul>
+        </div>
+
+        <div class="pt ag">
+          <div class="pt-head">
+            <span class="pt-tag">Agent behaviour</span>
+            <span class="pt-title">Validation language &amp; sizing readout</span>
+          </div>
+          <p class="pt-summary">The agent's voice changes to match the live site's "we validate, not estimate" positioning, and the sizing detection that runs invisibly today gets surfaced in the response.</p>
+          <ul class="work-list">
+            <li><span class="check">→</span><span><strong>Validation language audit.</strong> Strip "estimate," "AI-generated," "inferred from benchmarks" from every agent response. Replace with "based on patterns across similar accounts."</span></li>
+            <li><span class="check">→</span><span><strong>Sizing readout one-liner.</strong> Above the pitch: <em>"Detected: DTC apparel · 10–50 employees · NA · Shopify + Klaviyo + Google Ads."</em> The work happens today; surfacing it earns credibility.</span></li>
+            <li><span class="check">→</span><span><strong>Range-based numbers.</strong> Replace point estimates with low–high bands in agent copy. Annual + monthly side-by-side at the size appropriate to detected company.</span></li>
+          </ul>
+        </div>
+
+        <div class="pt rep">
+          <div class="pt-head">
+            <span class="pt-tag">Reporting</span>
+            <span class="pt-title">Source receipts &amp; basic logging</span>
+          </div>
+          <p class="pt-summary">User-facing reporting on what the agent is anchored on, plus the first internal logging so accuracy can be measured later.</p>
+          <ul class="work-list">
+            <li><span class="check">→</span><span><strong>Source receipt line per ID.</strong> "Based on N similar audited accounts." N pulled from internal data. The receipt is the visible reporting layer for the user.</span></li>
+            <li><span class="check">→</span><span><strong>Pre-signup estimate logging.</strong> Capture the estimate produced for every domain — vertical, size, range, source N. Foundation for Phase 2's estimate-vs-actual loop.</span></li>
+            <li><span class="check">→</span><span><strong>Stack &amp; signal coverage flag.</strong> Which APIs returned data for this domain, which were null. Internal only — feeds debugging and Phase 3 prioritization.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="phase-outcome">
+        <h6>What changes for the user</h6>
+        <p>The agent now shows what it detected before showing the number, the number is a range with credibility line below, and the language matches the rest of the site's positioning. Six new signal sources are working behind the scenes. Internally, every signup is now logged in a way that lets us measure accuracy in Phase 2.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="phase-2">
+    <h2>4 · Phase 2 — refinement &amp; learning loop</h2>
+    <p class="section-sub">Add one more signal API, ship the refinement chips on the front-end, and close the first feedback loop with an estimate-vs-actual dashboard.</p>
+
+    <div class="phase p2">
+      <div class="phase-head">
+        <span class="phase-num">Phase 2</span>
+        <span class="phase-title">Refinement &amp; learning loop</span>
+        <span class="phase-time p2">~ May 12 target</span>
+      </div>
+      <p class="phase-thesis">Phase 1 establishes the foundation. Phase 2 makes it learn. The accuracy track adds one direct ad-spend signal — likely SpyFu, marketing's pick. The behaviour track ships refinement chips and the conversational rules for handling user input. The reporting track lights up the dashboard that compares pre-signup estimates against post-connect actuals.</p>
+
+      <div class="phase-tracks">
+        <div class="pt acc">
+          <div class="pt-head">
+            <span class="pt-tag">Accuracy</span>
+            <span class="pt-title">Direct ad-spend signal</span>
+          </div>
+          <p class="pt-summary">One more API on top of Phase 1's six. Working candidate is SpyFu — direct dollar reading on Google Ads spend for US/UK domains. Marketing's coverage check decides whether it ships or gets swapped.</p>
+          <ul class="work-list">
+            <li><span class="check">→</span><span><strong>SpyFu API<span class="api-tag api-tbd">pending pick</span></strong> — direct estimated Google Ads monthly spend, top keywords, history. Coverage US/UK only and Google-only. Use as ADID enhancer, not primary.</span></li>
+          </ul>
+        </div>
+
+        <div class="pt ag">
+          <div class="pt-head">
+            <span class="pt-tag">Agent behaviour</span>
+            <span class="pt-title">Refinement chips &amp; override handling</span>
+          </div>
+          <p class="pt-summary">The conversational layer for sharpening estimates. Single-tap chip inputs, live recalibration, and the rules for what the agent says when user input contradicts inference.</p>
+          <ul class="work-list">
+            <li><span class="check">→</span><span><strong>Refinement chips UI.</strong> Single-tap inputs below the pitch — monthly ad spend, team size, vertical confirm, region. Live recalibration of the bolded number. Signup form stays mounted; chips always optional.</span></li>
+            <li><span class="check">→</span><span><strong>Cohort-aware copy.</strong> When chip taps shift the cohort, the source line updates: <em>"Based on 47 similar accounts"</em> → <em>"Based on 12 at your reported scale."</em></span></li>
+            <li><span class="check">→</span><span><strong>Big-disagreement soft surface.</strong> If user input is wildly inconsistent with inference, agent acknowledges with one line: <em>"That's significantly above what we usually see for your stack — connecting your account will give you the exact number."</em></span></li>
+            <li><span class="check">→</span><span><strong>No follow-up questions rule.</strong> Chips are the entire input surface. Agent never asks free-text questions. Flow remains one-shot.</span></li>
+          </ul>
+        </div>
+
+        <div class="pt rep">
+          <div class="pt-head">
+            <span class="pt-tag">Reporting</span>
+            <span class="pt-title">Estimate-vs-actual dashboard</span>
+          </div>
+          <p class="pt-summary">First closed feedback loop. Every connection a user makes after signup produces a comparison datapoint that can be stacked against the pre-signup estimate.</p>
+          <ul class="work-list">
+            <li><span class="check">→</span><span><strong>Estimate-vs-actual pipeline.</strong> Match Phase 1's logged estimates against post-connect actuals per ID category. Output: error band per vertical, N-per-vertical.</span></li>
+            <li><span class="check">→</span><span><strong>Internal accuracy dashboard.</strong> Ratio band, vertical breakdown, drill-down to specific domains. Owned by data; visible to product and marketing.</span></li>
+            <li><span class="check">→</span><span><strong>Override telemetry.</strong> Log every chip tap. User-supplied value, original inferred value, dimension. Three-way comparison feeds the calibration loop.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="phase-outcome">
+        <h6>What changes for the user</h6>
+        <p>Users can now sharpen the estimate with one-tap chips and watch the number recalibrate live. Behind the scenes, accuracy is measurable for the first time — every signup contributes a datapoint. ADID gets a direct dollar reading on US/UK domains where the Phase 2 API has coverage.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="phase-3">
+    <h2>5 · Phase 3 — compounding accuracy</h2>
+    <p class="section-sub">Backlog of higher-effort or higher-cost work, sequenced by what Phase 2's data reveals. Items ranked P1 → P3 across the three tracks.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 8%;">Priority</th>
+          <th style="width: 12%;">Track</th>
+          <th style="width: 22%;">Workstream</th>
+          <th style="width: 12%;">Effort</th>
+          <th style="width: 12%;">Cost</th>
+          <th style="width: 34%;">Why</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="priority"><span class="pri-pill pri-1">P1</span></td>
+          <td><span class="track-pill acc">Accuracy</span></td>
+          <td><strong>Internal benchmark model v1</strong></td>
+          <td class="dim">~1–2 weeks</td>
+          <td class="dim">$0</td>
+          <td class="dim">Replace static <code>INDUSTRY_SPEND_RANGES</code> with queries against Vaudit's audited client data, keyed by vertical × size × platform. Highest accuracy lift in the backlog — this is the moat.</td>
+        </tr>
+        <tr>
+          <td class="priority"><span class="pri-pill pri-1">P1</span></td>
+          <td><span class="track-pill ag">Behaviour</span></td>
+          <td><strong>Multi-ID expansion conversation</strong></td>
+          <td class="dim">~1 week</td>
+          <td class="dim">$0</td>
+          <td class="dim">After scan, agent surfaces top opportunity with two CTAs (connect or lateral). Post-connect, prompts for next biggest ID. Closes the conversational loop from "show me" to "do something."</td>
+        </tr>
+        <tr>
+          <td class="priority"><span class="pri-pill pri-1">P1</span></td>
+          <td><span class="track-pill ag">Behaviour</span></td>
+          <td><strong>OAuth fast-path pilot</strong></td>
+          <td class="dim">~1 week</td>
+          <td class="dim">$0</td>
+          <td class="dim">Parallel funnel: one-click read-only Google Ads connect → real spend in 30 seconds. If it converts better than estimate-first, this becomes default. Highest single-bet upside.</td>
+        </tr>
+        <tr>
+          <td class="priority"><span class="pri-pill pri-2">P2</span></td>
+          <td><span class="track-pill acc">Accuracy</span></td>
+          <td><strong>Per-vertical recovery rates</strong></td>
+          <td class="dim">~3 days</td>
+          <td class="dim">$0</td>
+          <td class="dim">Replace hardcoded <code>SAVINGS_RATE</code> with actual recovery percentages from Vaudit's refund history, per vertical. Quick win once benchmark model exists.</td>
+        </tr>
+        <tr>
+          <td class="priority"><span class="pri-pill pri-2">P2</span></td>
+          <td><span class="track-pill rep">Reporting</span></td>
+          <td><strong>Quarterly recalibration job</strong></td>
+          <td class="dim">~3 days</td>
+          <td class="dim">$0</td>
+          <td class="dim">Automated retune of benchmark curves using Phase 2's telemetry data. Compounds accuracy week over week without manual intervention.</td>
+        </tr>
+        <tr>
+          <td class="priority"><span class="pri-pill pri-2">P2</span></td>
+          <td><span class="track-pill rep">Reporting</span></td>
+          <td><strong>Per-domain accuracy cache</strong></td>
+          <td class="dim">~3 days</td>
+          <td class="dim">$0</td>
+          <td class="dim">Track estimate confidence by domain. Surface in agent output when N coverage is thin. Improves source receipts without changing the model.</td>
+        </tr>
+        <tr>
+          <td class="priority"><span class="pri-pill pri-2">P2</span></td>
+          <td><span class="track-pill ag">Behaviour</span></td>
+          <td><strong>"Why this happens" expandables</strong></td>
+          <td class="dim">~3 days</td>
+          <td class="dim">$0</td>
+          <td class="dim">One-paragraph education on demand per ID — bot traffic, audience overlap, ghost seats. Builds trust without padding the page.</td>
+        </tr>
+        <tr>
+          <td class="priority"><span class="pri-pill pri-3">P3</span></td>
+          <td><span class="track-pill acc">Accuracy</span></td>
+          <td><strong>SimilarWeb (full)</strong></td>
+          <td class="dim">~2 weeks (procurement)</td>
+          <td class="dim">$14k–90k+/yr</td>
+          <td class="dim">Only if SEMrush coverage testing reveals a meaningful gap. Procurement is the long pole. Don't sign without proof of need.</td>
+        </tr>
+        <tr>
+          <td class="priority"><span class="pri-pill pri-3">P3</span></td>
+          <td><span class="track-pill rep">Reporting</span></td>
+          <td><strong>Region-tiered defaults</strong></td>
+          <td class="dim">~3 days</td>
+          <td class="dim">$0</td>
+          <td class="dim">CPC and recovery rates vary materially by region. If telemetry shows international domains skew off, build region-specific benchmark curves.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <h4>How Phase 3 actually gets sequenced</h4>
+      <p>The order depends on what Phase 2's dashboard reveals once it's live. Run a one-hour review the week after Phase 2 ships, look at the estimate-vs-actual error breakdown by vertical, and let the worst-performing category drive the next P1 pick. The default ranking above is the best guess pre-data — expect at least one re-ordering.</p>
+    </div>
+  </section>
+
+  <section id="decisions">
+    <h2>6 · Open questions — pending marketing recommendation</h2>
+    <p class="section-sub">Marketing (Jugas + Chris) is researching API alternatives and quality-controlling data inputs. Their prioritized Phase 1 + Phase 2 recommendation is due Thursday. The questions below are what we need from that work before Phase 1 commits.</p>
+
+    <div class="decisions">
+      <h4>For Thursday's marketing recommendation</h4>
+      <ul>
+        <li><strong>Final API picks for Phase 1.</strong> Six APIs go in by ~ May 6. The four free sources and the two paid candidates (Apollo + SEMrush Trends Basic) are working assumptions — marketing's research may surface stronger alternatives. Want a pick by Thursday so engineering can kick off Friday.</li>
+        <li><strong>Apollo vs PDL.</strong> Subscription vs pay-per-lookup. Marketing's data quality testing — hit rate and field completeness on our typical pre-signup domain mix — should pick the winner.</li>
+        <li><strong>SEMrush coverage check.</strong> Confirm via manual data pulls that coverage holds across our target verticals, not just canonical examples. If thin in mid-market DTC or B2B SaaS, slip to Phase 2 and move SpyFu into Phase 1 instead.</li>
+        <li><strong>SpyFu coverage check.</strong> US/UK only and Google-only. Confirm what % of pre-signup traffic falls within coverage. Below 50% means it's not worth the integration overhead.</li>
+        <li><strong>Free signal scope.</strong> Carrier rate cards and cloud pricing APIs are stretch items if integration time is tighter than expected. Marketing's manual-pull testing should validate that the free-source data quality justifies the engineering work.</li>
+        <li><strong>Estimated integration time per API.</strong> Jugas's Postman testing should produce per-API time estimates. Phase 1 fits if all six are sub-1-day per integration. If any come back as multi-day, we re-shape Phase 1 around the cheapest-to-integrate set.</li>
+        <li><strong>Look-and-feel for source receipts.</strong> Chris owns marketing look/feel. The "based on N similar accounts" line is the visible reporting surface — needs marketing sign-off on phrasing before it ships.</li>
+      </ul>
+    </div>
+
+    <div class="callout">
+      <h4>Decision path</h4>
+      <p>Marketing recommendation Thursday → eng kickoff Friday → Phase 1 ships ~ May 6. If any API gets demoted by Thursday's review, slot in the next-best alternative from the strategy doc rather than reducing Phase 1 scope. Six API integrations is the value-show story; trading one for another preserves it.</p>
+    </div>
+  </section>
+
+  <footer>
+    Vaudit · Roadmap &amp; phases · Working draft for review
+  </footer>
+
+</div>
+
+</body>
+</html>
